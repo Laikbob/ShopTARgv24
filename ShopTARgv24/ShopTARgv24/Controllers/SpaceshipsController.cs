@@ -1,37 +1,28 @@
-﻿using System.Reflection.Metadata;
-using Microsoft.AspNetCore.Mvc;
-using ShopTARgv24.Data;
+﻿using Microsoft.AspNetCore.Mvc;
+using ShopTARgv24.Models;
+using System.Linq;
 
 namespace ShopTARgv24.Controllers
 {
-    public class ShopTARgv24Context : DbContext
+    public class SpaceshipsController : Controller
     {
-        public object Spaceships { get; private set; }
+        private readonly ShopTARgv24Context _context;
 
-        public class SpaceshipsController : Controller
+        public SpaceshipsController(ShopTARgv24Context context) => _context = context;
+
+        public IActionResult Index()
         {
-            private readonly ShopTARgv24Context _context;
+            var result = _context.Spaceships
+                .Select(x => new SpaceshipsIndexViewModel
+                {
+                    Id = x.Id,
+                    Name = x.Name,
+                    Buildate = x.BultiDate,
+                    TypeName = x.Typename
+                });
 
-            public SpaceshipsController
-                (
-                    ShopTARgv24Context context
-                )
-            {
-                _context = context;
-            }
-            public IActionResult Index()
-            {
-                var result = _context.Spaceships
-                    .Select(x => new SpaceshipsControllerModel
-                    {
-                        Id = x.Id,
-                        Name = x.Name,
-                        Buildate = x.Buildate,
-                        TypeName = x.TypeName
-
-                    });
-                return View();
-            }
+            return View(result);
         }
     }
 }
+

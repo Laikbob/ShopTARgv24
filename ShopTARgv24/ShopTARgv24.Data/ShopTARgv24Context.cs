@@ -3,9 +3,15 @@ using ShopTARgv24.Core.Domain;
 
 namespace ShopTARgv24.Data
 {
-    internal class ShopTARgv24Context : DbContext
+    public class ShopTARgv24Context : DbContext
     {
-        public DbSet<Spaceship> Spaceships { get; set; }
+        public ShopTARgv24Context(DbContextOptions<ShopTARgv24Context> options)
+            : base(options)
+        {
+        }
 
+        // Только одно определение!
+        public DbSet<Spaceship> Spaceships { get; set; }
     }
 }
+
