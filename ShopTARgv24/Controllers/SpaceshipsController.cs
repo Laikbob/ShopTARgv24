@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
+using Microsoft.EntityFrameworkCore;
 using ShopTARgv24.Core.Dto;
 using ShopTARgv24.Core.ServiceInterface;
 using ShopTARgv24.Data;
@@ -12,6 +13,8 @@ namespace ShopTARgv24.Controllers
     {
         private readonly ShopTARgv24Context _context;
         private readonly ISpaceshipsServices _spaceshipsServices;
+
+        
 
         public SpaceshipsController
             (
@@ -163,6 +166,31 @@ namespace ShopTARgv24.Controllers
             }
 
             return RedirectToAction(nameof(Index), vm);
+        }
+        [HttpGet]
+        public async Task<IActionResult> Details(Guid id)
+        {
+            var spaceship = await _spaceshipsServices.DetailAsync(id);
+
+            if (spaceship == null)
+            {
+                return NotFound();
+            }
+
+            var vm = new SpaceshipsDetailsViewModel();
+
+            vm.Id = spaceship.Id;
+            vm.Name = spaceship.Name;
+            vm.TypeName = spaceship.TypeName;
+            vm.BuiltDate = spaceship.BuiltDate;
+            vm.Crew = spaceship.Crew;
+            vm.EnginePower = spaceship.EnginePower;
+            vm.Passengers = spaceship.Passengers;
+            vm.InnerVolume = spaceship.InnerVolume;
+            vm.CreatedAt = spaceship.CreatedAt;
+            vm.ModifiedAt = spaceship.ModifiedAt;
+
+            return View(vm);
         }
     }
 }

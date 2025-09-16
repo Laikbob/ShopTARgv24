@@ -1,8 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
-
-namespace ShopTARgv24.Core.Dto
+﻿namespace ShopTARgv24.Models.Spaceships
 {
-    public class SpaceshipDto
+    public class SpaceshipsDetailsViewModel
     {
         public Guid? Id { get; set; }
         public string? Name { get; set; }
@@ -12,11 +10,6 @@ namespace ShopTARgv24.Core.Dto
         public int? EnginePower { get; set; }
         public int? Passengers { get; set; }
         public int? InnerVolume { get; set; }
-        // Tuleb teha muutuja Files
-        public List<IFormFile> Files { get; set; }
-
-        public IEnumerable<FileToApiDto> fileToApiDtos { get; set; }
-            =new List<FileToApiDto>();
 
         public DateTime? CreatedAt { get; set; }
         public DateTime? ModifiedAt { get; set; }
