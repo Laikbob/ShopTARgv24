@@ -4,13 +4,12 @@ using ShopTARgv24.Core.Domain;
 
 namespace ShopTARgv24.Data
 {
-    public class ShopTARgv24Context : DbContext
+    public class ShopContext : DbContext
     {
-        public ShopTARgv24Context(DbContextOptions<ShopTARgv24Context> options) 
+        public ShopContext(DbContextOptions<ShopContext> options)
         : base(options) { }
+        public DbSet<Kindergarten> Kindergarten { get; set; }
 
-        public DbSet<Spaceship> Spaceships { get; set; }
-
-        public DbSet<FileToApi> FileToApi { get; set; }
+        public DbSet<FileToApi> FileToApis { get; set; }
     }
 }
