@@ -1,8 +1,9 @@
-using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
+using shop.Models;
 using ShopTARgv24.Models;
+using System.Diagnostics;
 
-namespace ShopTARgv24.Controllers
+namespace shop.Controllers
 {
     public class HomeController : Controller
     {
