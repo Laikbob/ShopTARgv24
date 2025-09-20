@@ -10,7 +10,7 @@ using ShopTARgv24.Data;
 
 namespace ShopTARgv24.Data.Migrations
 {
-    [DbContext(typeof(ShopTARgv24Context))]
+    [DbContext(typeof(ShopTARgv24ContextModelSnapshot))]
     partial class ShopTARgv24ContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)

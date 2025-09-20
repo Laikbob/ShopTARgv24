@@ -4,6 +4,7 @@ using ShopTARgv24.Data;
 using Microsoft.Extensions.Hosting;
 using ShopTARgv24.Core.Domain;
 using ShopTARgv24.Core.ServiceInterface;
+using shop.Core.Dto;
 
 namespace ShopTARgv24.ApplicationServices.Services
 

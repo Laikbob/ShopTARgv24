@@ -11,7 +11,7 @@ using ShopTARgv24.Data;
 
 namespace ShopTARgv24.Data.Migrations
 {
-    [DbContext(typeof(ShopTARgv24Context))]
+    [DbContext(typeof(ShopTARgv24ContextModelSnapshot))]
     [Migration("20250902161755_init")]
     partial class init
     {
