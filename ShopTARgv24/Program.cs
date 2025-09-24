@@ -14,12 +14,13 @@ namespace ShopTARgv24
             // Add services to the container.
             builder.Services.AddControllersWithViews();
 
-            builder.Services.AddScoped<ISpaceshipsServices, SpaceshipsServices>();
-            builder.Services.AddScoped<IFileServices, FileServices>();
-
+            //builder.Services.AddScoped<SpaceshipServices>();
 
             builder.Services.AddDbContext<ShopTARgv24Context>(options =>
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+            builder.Services.AddScoped<IKindergartenServices, KindergartenServices>();
+            builder.Services.AddScoped<IFileServices, FileServices>();
 
             var app = builder.Build();
 
@@ -32,17 +33,15 @@ namespace ShopTARgv24
             }
 
             app.UseHttpsRedirection();
+            app.UseStaticFiles();
+
             app.UseRouting();
 
             app.UseAuthorization();
 
-            app.UseStaticFiles();
-
-            app.MapStaticAssets();
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Home}/{action=Index}/{id?}")
-                .WithStaticAssets();
+                pattern: "{controller=Home}/{action=Index}/{id?}");
 
             app.Run();
         }
