@@ -127,6 +127,26 @@ namespace ShopTARgv24.Controllers
 
             return View("CreateUpdate", vm);
         }
+        [HttpGet]
+        public async Task<IActionResult> Details(Guid id)
+        {
+            var kindergarten = await _context.Kindergarten.FindAsync(id);
+            if (kindergarten == null)
+                return NotFound();
+
+            var model = new KindergartenDetailsViewModel
+            {
+                id = kindergarten.id,
+                GroupName = kindergarten.GroupName,
+                ChildrenCount = kindergarten.ChildrenCount,
+                KindergartenName = kindergarten.KindergartenName,
+                TeacherName = kindergarten.TeacherName,
+                CreatedAt = kindergarten.CreatedAt,
+                UpdatedAt = kindergarten.UpdatedAt
+            };
+
+            return View(model);
+        }
 
         [HttpPost]
         public async Task<IActionResult> Update(KindergartenCreateUpdateViewModel vm)
