@@ -29,8 +29,8 @@ namespace ShopTARgv24.ApplicationServices.Services
             kindergarten.ChildrenCount = dto.ChildrenCount;
             kindergarten.KindergartenName = dto.KindergartenName;
             kindergarten.TeacherName = dto.TeacherName;
-            kindergarten.CreatedAt = dto.CreatedAt;
-            kindergarten.UpdatedAt = dto.UpdatedAt;
+            kindergarten.CreatedAt = DateTime.Now;
+            kindergarten.UpdatedAt = DateTime.Now;
 
             _fileServices.FilesToApi(dto, kindergarten);
 
