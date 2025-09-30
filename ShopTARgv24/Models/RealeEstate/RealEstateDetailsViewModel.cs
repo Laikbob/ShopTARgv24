@@ -1,6 +1,6 @@
-﻿namespace ShopTARgv24.Core.Domain
+﻿namespace ShopTARgv24.Models.RealeEstate
 {
-    public class RealEstate
+    public class RealEstateDetailsViewModel
     {
         public Guid? Id { get; set; }
         public int? Area { get; set; }
@@ -9,6 +9,5 @@
         public int? BuildingType { get; set; }
         public DateTime? CreatedAt { get; set; }
         public DateTime? ModifiedAt { get; set; }
-
     }
 }

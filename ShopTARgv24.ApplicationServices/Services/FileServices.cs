@@ -22,7 +22,7 @@ namespace ShopTARgv24.ApplicationServices.Services
             _webHost = webHost;
         }
 
-        public void FilesToApi(RealeEstateDto dto, RealeEstate spaceship)
+        public void FilesToApi(SpaceshipDto dto, Spaceship spaceship)
         {
             if (dto.Files != null && dto.Files.Count > 0)
             {
@@ -34,7 +34,7 @@ namespace ShopTARgv24.ApplicationServices.Services
                 foreach (var file in dto.Files)
                 {
                     //muutuja string uploadsFolder ja sinna laetakse failid
-                    string uploadsFolder = Path.Combine(_webHost.ContentRootPath,"wwwroot", "multipleFileUpload");
+                    string uploadsFolder = Path.Combine(_webHost.ContentRootPath, "wwwroot", "multipleFileUpload");
                     //muutuja string uniqueFileName ja siin genereeritakse uus Guid ja lisatakse see faili ette
                     string uniqueFileName = Guid.NewGuid().ToString() + "_" + file.FileName;
                     //muutuja string filePath kombineeritakse ja lisatakse koos kausta unikaalse nimega
@@ -57,6 +57,8 @@ namespace ShopTARgv24.ApplicationServices.Services
             }
         }
 
+
+
         public async Task<FileToApi> RemoveImageFromApi(FileToApiDto dto)
         {
             //meil on vaja leida file andmebaasist läbi id ülesse
@@ -67,7 +69,7 @@ namespace ShopTARgv24.ApplicationServices.Services
                 + imageId.ExistingFilePath;
 
             //kui fail on olemas, siis kustuta ära
-            if(File.Exists(filePath))
+            if (File.Exists(filePath))
             {
                 File.Delete(filePath);
             }
