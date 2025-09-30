@@ -22,9 +22,9 @@ namespace ShopTARgv24.ApplicationServices.Services
            _fileServices = fileServices;
         }
 
-        public async Task<Spaceship> Create(SpaceshipDto dto)
+        public async Task<RealeEstate> Create(RealeEstateDto dto)
         {
-            Spaceship spaceship = new Spaceship();
+            RealeEstate spaceship = new RealeEstate();
 
             spaceship.Id = Guid.NewGuid();
             spaceship.Name = dto.Name;
@@ -44,7 +44,7 @@ namespace ShopTARgv24.ApplicationServices.Services
             return spaceship;
         }
 
-        public async Task<Spaceship> DetailAsync(Guid id)
+        public async Task<RealeEstate> DetailAsync(Guid id)
         {
             var result = await _context.Spaceships
                 .FirstOrDefaultAsync(x => x.Id == id);
@@ -52,7 +52,7 @@ namespace ShopTARgv24.ApplicationServices.Services
             return result;
         }
 
-        public async Task<Spaceship> Delete(Guid id)
+        public async Task<RealeEstate> Delete(Guid id)
         {
             var spaceship = await _context.Spaceships
                 .FirstOrDefaultAsync(x => x.Id == id);
@@ -73,9 +73,9 @@ namespace ShopTARgv24.ApplicationServices.Services
             return spaceship;
         }
 
-        public async Task<Spaceship> Update(SpaceshipDto dto)
+        public async Task<RealeEstate> Update(RealeEstateDto dto)
         {
-            Spaceship domain = new();
+            RealeEstate domain = new();
 
             domain.Id = dto.Id;
             domain.Name = dto.Name;

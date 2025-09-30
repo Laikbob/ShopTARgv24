@@ -1,6 +1,6 @@
 ﻿namespace ShopTARgv24.Core.Domain
 {
-    public class Spaceship
+    public class RealeEstate
     {
         public Guid? Id { get; set; }
         public string? Name { get; set; }

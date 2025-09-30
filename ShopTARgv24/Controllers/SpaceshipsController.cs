@@ -53,7 +53,7 @@ namespace ShopTARgv24.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(SpaceshipCreateUpdateViewModel vm)
         {
-            var dto = new SpaceshipDto()
+            var dto = new RealeEstateDto()
             {
                 Id = vm.Id,
                 Name = vm.Name,
@@ -170,7 +170,7 @@ namespace ShopTARgv24.Controllers
         [HttpPost]
         public async Task<IActionResult> Update(SpaceshipCreateUpdateViewModel vm)
         {
-            var dto = new SpaceshipDto()
+            var dto = new RealeEstateDto()
             {
                 Id = vm.Id,
                 Name = vm.Name,

@@ -2,7 +2,7 @@
 
 namespace ShopTARgv24.Core.Dto
 {
-    public class SpaceshipDto
+    public class RealeEstateDto
     {
         public Guid? Id { get; set; }
         public string? Name { get; set; }

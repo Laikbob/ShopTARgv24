@@ -9,7 +9,8 @@ namespace ShopTARgv24.Data
         public ShopTARgv24Context(DbContextOptions<ShopTARgv24Context> options) 
         : base(options) { }
 
-        public DbSet<Spaceship> Spaceships { get; set; }
+        public DbSet<RealeEstate> Spaceships { get; set; }
+        public DbSet<RealEstate> RealeEstate { get; set; }
         public DbSet<FileToApi> FileToApis { get; set; }
     }
 }

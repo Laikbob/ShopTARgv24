@@ -1,7 +1,6 @@
-﻿
-namespace ShopTARgv24.Core.Dto
+﻿namespace ShopTARgv24.Models.RealeEstate
 {
-    public class RealEstateDto
+    public class RealeEstateIndexViewModelcs
     {
         public Guid? Id { get; set; }
         public double? Area { get; set; }

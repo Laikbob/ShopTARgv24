@@ -22,7 +22,7 @@ namespace ShopTARgv24.ApplicationServices.Services
             _webHost = webHost;
         }
 
-        public void FilesToApi(SpaceshipDto dto, Spaceship spaceship)
+        public void FilesToApi(RealeEstateDto dto, RealeEstate spaceship)
         {
             if (dto.Files != null && dto.Files.Count > 0)
             {
