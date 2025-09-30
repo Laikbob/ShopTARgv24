@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace ShopTARgv24.Core.Domain
-{    
+{    //
     public class Kindergarten
     {
         public Guid id { get; set; }
