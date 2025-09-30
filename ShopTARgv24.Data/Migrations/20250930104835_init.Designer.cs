@@ -12,7 +12,7 @@ using ShopTARgv24.Data;
 namespace ShopTARgv24.Data.Migrations
 {
     [DbContext(typeof(ShopTARgv24Context))]
-    [Migration("20250923195315_init")]
+    [Migration("20250930104835_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -34,7 +34,7 @@ namespace ShopTARgv24.Data.Migrations
                     b.Property<string>("ExistingFilePath")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid?>("SpaceshipId")
+                    b.Property<Guid?>("KindergartenId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
@@ -42,42 +42,33 @@ namespace ShopTARgv24.Data.Migrations
                     b.ToTable("FileToApis");
                 });
 
-            modelBuilder.Entity("ShopTARgv24.Core.Domain.Spaceship", b =>
+            modelBuilder.Entity("ShopTARgv24.Core.Domain.Kindergarten", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<Guid>("id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTime?>("BuiltDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int?>("Crew")
+                    b.Property<int>("ChildrenCount")
                         .HasColumnType("int");
 
-                    b.Property<int?>("EnginePower")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("InnerVolume")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime?>("ModifiedAt")
+                    b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Name")
+                    b.Property<string>("GroupName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("Passengers")
-                        .HasColumnType("int");
-
-                    b.Property<string>("TypeName")
+                    b.Property<string>("KindergartenName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                    b.Property<string>("TeacherName")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.ToTable("Spaceships");
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("id");
+
+                    b.ToTable("Kindergarten");
                 });
 #pragma warning restore 612, 618
         }

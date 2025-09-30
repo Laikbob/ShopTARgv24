@@ -17,7 +17,7 @@ namespace ShopTARgv24.Data.Migrations
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     ExistingFilePath = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    SpaceshipId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                    KindergartenId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -25,23 +25,20 @@ namespace ShopTARgv24.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Spaceships",
+                name: "Kindergarten",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    TypeName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    BuiltDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    Crew = table.Column<int>(type: "int", nullable: true),
-                    EnginePower = table.Column<int>(type: "int", nullable: true),
-                    Passengers = table.Column<int>(type: "int", nullable: true),
-                    InnerVolume = table.Column<int>(type: "int", nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    ModifiedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
+                    id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    GroupName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ChildrenCount = table.Column<int>(type: "int", nullable: false),
+                    KindergartenName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    TeacherName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Spaceships", x => x.Id);
+                    table.PrimaryKey("PK_Kindergarten", x => x.id);
                 });
         }
 
@@ -52,7 +49,7 @@ namespace ShopTARgv24.Data.Migrations
                 name: "FileToApis");
 
             migrationBuilder.DropTable(
-                name: "Spaceships");
+                name: "Kindergarten");
         }
     }
 }
