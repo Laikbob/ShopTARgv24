@@ -62,7 +62,7 @@ namespace ShopTARgv24.ApplicationServices.Services
         {
             RealEstate domain = new();
 
-            domain.Id = dto.Id;
+            domain.Id = (Guid)dto.Id;
             domain.Area = dto.Area;
             domain.Location = dto.Location;
             domain.RoomNumber = dto.RoomNumber;

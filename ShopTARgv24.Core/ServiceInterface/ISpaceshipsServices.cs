@@ -5,9 +5,9 @@ namespace ShopTARgv24.Core.ServiceInterface
 {
     public interface ISpaceshipsServices
     {
-        Task<RealeEstate> Create(RealeEstateDto dto);
-        Task<RealeEstate> DetailAsync(Guid id);
-        Task<RealeEstate> Delete(Guid id);
-        Task<RealeEstate> Update(RealeEstateDto dto);
+        Task<Spaceship> Create(SpaceshipDto dto);
+        Task<Spaceship> DetailAsync(Guid id);
+        Task<Spaceship> Delete(Guid id);
+        Task<Spaceship> Update(SpaceshipDto dto);
     }
 }

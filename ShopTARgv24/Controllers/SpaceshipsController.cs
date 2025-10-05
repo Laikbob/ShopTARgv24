@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using ShopTARgv24.Core.Dto;
 using ShopTARgv24.Core.ServiceInterface;
 using ShopTARgv24.Data;
+using ShopTARgv24.Models.RealEstate;
 using ShopTARgv24.Models.Spaceships;
 
 
@@ -53,7 +54,7 @@ namespace ShopTARgv24.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(SpaceshipCreateUpdateViewModel vm)
         {
-            var dto = new RealeEstateDto()
+            var dto = new SpaceshipDto()
             {
                 Id = vm.Id,
                 Name = vm.Name,
@@ -133,7 +134,7 @@ namespace ShopTARgv24.Controllers
         }
 
         [HttpGet]
-        public async Task <IActionResult> Update(Guid id)
+        public async Task<IActionResult> Update(Guid id)
         {
             var spaceship = await _spaceshipsServices.DetailAsync(id);
 
@@ -170,7 +171,7 @@ namespace ShopTARgv24.Controllers
         [HttpPost]
         public async Task<IActionResult> Update(SpaceshipCreateUpdateViewModel vm)
         {
-            var dto = new RealeEstateDto()
+            var dto = new SpaceshipDto()
             {
                 Id = vm.Id,
                 Name = vm.Name,

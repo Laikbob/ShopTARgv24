@@ -1,22 +1,26 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
+using Microsoft.EntityFrameworkCore;
+using ShopTARgv24.Core.Domain;
 using ShopTARgv24.Core.Dto;
 using ShopTARgv24.Core.ServiceInterface;
 using ShopTARgv24.Data;
+using ShopTARgv24.Models.RealEstate;
 using ShopTARgv24.Models.Spaceships;
-using ShopTARgv24.Models.RealeEstate;
+
 
 namespace ShopTARgv24.Controllers
 {
     public class RealEstateController : Controller
     {
         private readonly ShopTARgv24Context _context;
-        private readonly IRealeEstateServices _realestateServices;
+        private readonly IRealEstateServices _realestateServices;
         private readonly IFileServices _fileServices;
 
         public RealEstateController
             (
                 ShopTARgv24Context context,
-                IRealeEstateServices realestateServices,
+                IRealEstateServices realestateServices,
                 IFileServices fileServices
             )
         {
@@ -127,7 +131,7 @@ namespace ShopTARgv24.Controllers
 
             var images = await _context.FileToApis
                 .Where(x => x.RealEstateId == id)
-            .Select(y => new ImageViewModel
+                .Select(y => new ImageViewModel
                 {
                     FilePath = y.ExistingFilePath,
                     ImageId = y.Id,

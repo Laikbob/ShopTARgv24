@@ -1,9 +1,8 @@
-﻿﻿
-@model IEnumerable<ShopTARgv24.Models.RealEstate.RealEstateIndexViewModel>
+﻿@model IEnumerable<ShopTARgv24.Models.RealEstate.RealEstateIndexViewModel>
 
-    @{
-        int rowNumber = 1;
-    }
+@{
+    int rowNumber = 1;
+}
 
 <div>
     <a asp-action="create" asp-controller="realestate" type="submit" class="btn btn-primary">Create</a>
@@ -12,6 +11,7 @@
 <div class="h1">
     Real Estates
 </div>
+
 <form method="post">
     <table class="table table-hover">
         <thead>
@@ -25,7 +25,7 @@
             </tr>
         </thead>
         <tbody>
-            @foreach(var realestate in Model)
+            @foreach (var realestate in Model)
             {
                 <tr>
                     <td>@rowNumber</td>
@@ -40,7 +40,7 @@
                     </td>
                 </tr>
 
-                rowNumber += 1;
+                rowNumber += 1; 
             }
         </tbody>
     </table>

@@ -2,13 +2,12 @@
 {
     public class RealEstate
     {
-        public Guid? Id { get; set; }
-        public int? Area { get; set; }
-        public string? Location { get; set; }
-        public int? RoomNumber { get; set; }
-        public int? BuildingType { get; set; }
+        public Guid Id { get; set; }
+        public int? Area { get; set; }           // площадь
+        public string? Location { get; set; }    // адрес
+        public int? RoomNumber { get; set; }     // количество комнат
+        public string? BuildingType { get; set; } // тип здания
         public DateTime? CreatedAt { get; set; }
         public DateTime? ModifiedAt { get; set; }
-
     }
 }
