@@ -31,15 +31,16 @@ namespace ShopTARgv24.Controllers
 
         public IActionResult Index()
         {
-            var result = _context.RealEstate
+            var result = _context.RealEstates
                 .Select(x => new Models.RealEstate.RealEstateIndexViewModel
-                {
-                    Id = x.Id,
-                    Area = x.Area,
-                    Location = x.Location,
-                    RoomNumber = x.RoomNumber,
-                    BuildingType = x.BuildingType
-                });
+       {
+        Id = x.Id,
+        Area = x.Area,
+        Location = x.Location,
+        RoomNumber = x.RoomNumber,
+        BuildingType = x.BuildingType
+    });
+
 
             return View(result);
         }
@@ -64,6 +65,15 @@ namespace ShopTARgv24.Controllers
                 BuildingType = vm.BuildingType,
                 CreatedAt = vm.CreatedAt,
                 ModifiedAt = vm.ModifiedAt,
+                Files = vm.Files,
+                Image = vm.Image
+                    .Select(x => new FileToDatabaseDto
+                    {
+                        Id = x.Id,
+                        ImageData = x.ImageData,
+                        ImageTitle = x.ImageTitle,
+                        RealEstateId = x.RealEstateId,
+                    }).ToArray()
             };
 
             var result = await _realestateServices.Create(dto);
@@ -85,6 +95,8 @@ namespace ShopTARgv24.Controllers
             {
                 return NotFound();
             }
+
+            RealEstateImageViewModel[] photos = await FilesFromDatabase(id);
 
             var images = await _context.FileToApis
                 .Where(x => x.RealEstateId == id)
@@ -129,6 +141,8 @@ namespace ShopTARgv24.Controllers
                 return NotFound();
             }
 
+            RealEstateImageViewModel[] photos = await FilesFromDatabase(id);
+
             var images = await _context.FileToApis
                 .Where(x => x.RealEstateId == id)
                 .Select(y => new ImageViewModel
@@ -171,7 +185,7 @@ namespace ShopTARgv24.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            return RedirectToAction(nameof(Index), vm);
+            return RedirectToAction(nameof(Index));
         }
 
         [HttpGet]
@@ -183,6 +197,8 @@ namespace ShopTARgv24.Controllers
             {
                 return NotFound();
             }
+
+            RealEstateImageViewModel[] photos = await FilesFromDatabase(id);
 
             var images = await _context.FileToApis
                 .Where(x => x.RealEstateId == id)
@@ -203,6 +219,19 @@ namespace ShopTARgv24.Controllers
             vm.ModifiedAt = realestate.ModifiedAt;
 
             return View(vm);
+        }
+        private async Task<RealEstateImageViewModel[]> FilesFromDatabase(Guid id)
+        {
+            return await _context.FileToDatabase
+                .Where(x => x.RealEstateId == id)
+                .Select(y => new RealEstateImageViewModel
+                {
+                    RealEstateId = y.Id,
+                    Id = y.Id,
+                    ImageData = y.ImageData,
+                    ImageTitle = y.ImageTitle,
+                    Image = string.Format("data:image/gif;base64, {0}", Convert.ToBase64String(y.ImageData))
+                }).ToArrayAsync();
         }
     }
 }

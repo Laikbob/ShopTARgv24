@@ -24,45 +24,32 @@ namespace ShopTARgv24.ApplicationServices.Services
 
         public async Task<RealEstate> Create(RealEstateDto dto)
         {
-            RealEstate realestate = new RealEstate();
+            RealEstate domain = new RealEstate();
 
-            realestate.Id = Guid.NewGuid();
-            realestate.Area = dto.Area;
-            realestate.Location = dto.Location;
-            realestate.RoomNumber = dto.RoomNumber;
-            realestate.BuildingType = dto.BuildingType;
-            realestate.CreatedAt = DateTime.Now;
-            realestate.ModifiedAt = DateTime.Now;
+            domain.Id = Guid.NewGuid();
+            domain.Area = dto.Area;
+            domain.Location = dto.Location;
+            domain.RoomNumber = dto.RoomNumber;
+            domain.BuildingType = dto.BuildingType;
+            domain.CreatedAt = DateTime.Now;
+            domain.ModifiedAt = DateTime.Now;
 
+            if (dto.Files != null)
+            {
+                _fileServices.UploadFilesToDatabase(dto, domain);
+            }
 
-            await _context.RealEstate.AddAsync(realestate);
+            await _context.RealEstates.AddAsync(domain);
             await _context.SaveChangesAsync();
 
-            return realestate;
-        }
-
-        public async Task<RealEstate> DetailAsync(Guid id)
-        {
-            var result = await _context.RealEstate
-                .FirstOrDefaultAsync(x => x.Id == id);
-
-            return result;
-        }
-
-        public async Task<RealEstate> Delete(Guid id)
-        {
-            var realestate = await _context.RealEstate
-                .FirstOrDefaultAsync(x => x.Id == id);
-            await _context.SaveChangesAsync();
-
-            return realestate;
+            return domain;
         }
 
         public async Task<RealEstate> Update(RealEstateDto dto)
         {
-            RealEstate domain = new();
+            RealEstate domain = new RealEstate();
 
-            domain.Id = (Guid)dto.Id;
+            domain.Id = dto.Id;
             domain.Area = dto.Area;
             domain.Location = dto.Location;
             domain.RoomNumber = dto.RoomNumber;
@@ -70,10 +57,30 @@ namespace ShopTARgv24.ApplicationServices.Services
             domain.CreatedAt = dto.CreatedAt;
             domain.ModifiedAt = DateTime.Now;
 
-            _context.RealEstate.Update(domain);
+            _context.RealEstates.Update(domain);
             await _context.SaveChangesAsync();
 
             return domain;
         }
+
+        public async Task<RealEstate> DetailAsync(Guid id)
+        {
+            var result = await _context.RealEstates
+                .FirstOrDefaultAsync(x => x.Id == id);
+
+            return result;
+        }
+
+        public async Task<RealEstate> Delete(Guid id)
+        {
+            var result = await _context.RealEstates
+                .FirstOrDefaultAsync(x => x.Id == id);
+
+            _context.RealEstates.Remove(result);
+            await _context.SaveChangesAsync();
+
+            return result;
+        }
+
     }
 }

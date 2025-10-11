@@ -222,7 +222,6 @@ namespace ShopTARgv24.Controllers
                 }).ToArrayAsync();
 
             var vm = new SpaceshipDetailsViewModel();
-
             vm.Id = spaceship.Id;
             vm.Name = spaceship.Name;
             vm.TypeName = spaceship.TypeName;
