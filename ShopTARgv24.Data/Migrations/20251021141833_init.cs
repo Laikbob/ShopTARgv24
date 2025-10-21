@@ -26,11 +26,25 @@ namespace ShopTARgv24.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "RealEstate",
+                name: "FileToDatabase",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Area = table.Column<int>(type: "int", nullable: true),
+                    ImageTitle = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ImageData = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
+                    RealEstateId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_FileToDatabase", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "RealEstates",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Area = table.Column<double>(type: "float", nullable: true),
                     Location = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     RoomNumber = table.Column<int>(type: "int", nullable: true),
                     BuildingType = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -39,7 +53,7 @@ namespace ShopTARgv24.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_RealEstate", x => x.Id);
+                    table.PrimaryKey("PK_RealEstates", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -70,7 +84,10 @@ namespace ShopTARgv24.Data.Migrations
                 name: "FileToApis");
 
             migrationBuilder.DropTable(
-                name: "RealEstate");
+                name: "FileToDatabase");
+
+            migrationBuilder.DropTable(
+                name: "RealEstates");
 
             migrationBuilder.DropTable(
                 name: "Spaceships");

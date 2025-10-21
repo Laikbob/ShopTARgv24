@@ -2,13 +2,9 @@
 
 namespace ShopTARgv24.Core.ServiceInterface
 {
-    public class IWeatherForecsastServices
+    public interface IWeatherForecastServices
     {
-        public object GetWeatherByCity(string city)
-        {
-            throw new NotImplementedException();
-        }
-
-        Task<AccuLocationWeatherResultDto> AccuWeatherResul(AccuLocationWeatherResultDto dto);
+        Task<AccuLocationWeatherResultDto> AccuWeatherResult(AccuLocationWeatherResultDto dto);
+        Task<AccuLocationWeatherResultDto> AccuWeatherResultWebClient(AccuLocationWeatherResultDto dto);
     }
 }

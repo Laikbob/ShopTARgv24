@@ -2,6 +2,6 @@
 {
     public class AccuWeatherSearchViewModel
     {
-        public string CityName { get; set; } =  string.Empty;
+        public string CityName { get; set; } = string.Empty;
     }
 }
