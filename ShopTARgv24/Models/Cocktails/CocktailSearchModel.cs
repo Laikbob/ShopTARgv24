@@ -3,6 +3,7 @@
 
 namespace ShopTARgv24.Models.Cocktail
 {
+    //
     public class CocktailSearchModel
     {
         public string CocktailName { get; set; } = string.Empty;
