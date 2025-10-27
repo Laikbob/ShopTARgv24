@@ -5,76 +5,51 @@ using System.Net.Http;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using ShopTARgv24.Core.Dto;
 
 namespace ShopTARgv24.ApplicationServices.Services
 {
-    class CocktailServices
+    public class CocktailService
     {
         private readonly HttpClient _httpClient;
-        public CocktailServices(HttpClient httpClient)
+        private const string BaseUrl = "https://www.thecocktaildb.com/api/json/v1/1/";
+
+        public CocktailService()
         {
-            _httpClient = httpClient;
+            _httpClient = new HttpClient();
         }
-        public async Task<List<Drink>> GetCocktailsAsync(string apiUrl)
+
+        private async Task<T> GetApiResponse<T>(string url)
         {
-            var response = await _httpClient.GetAsync(apiUrl);
-            response.EnsureSuccessStatusCode();
-
-            var json = await response.Content.ReadAsStringAsync();
-
-            var root = JsonSerializer.Deserialize<Root>(json, new JsonSerializerOptions
-            {
-                PropertyNameCaseInsensitive = true
-            });
-
-            return root?.Drinks ?? new List<Drink>();
+            var json = await _httpClient.GetStringAsync(url);
+            return JsonSerializer.Deserialize<T>(json, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
         }
-    }
-    public class Root
-    {
-        public List<Drink> Drinks { get; set; } = new List<Drink>();
-    }
 
-    public class Drink
-    {
-        public string? IdDrink { get; set; }
-        public string? StrDrink { get; set; }
-        public string? StrCategory { get; set; }
-        public string? StrAlcoholic { get; set; }
-        public string? StrGlass { get; set; }
-        public string? StrInstructions { get; set; }
-        public string? StrInstructionsZH_HANS { get; set; }
-        public string? StrInstructionsZH_HANT { get; set; }
-        public string? StrDrinkThumb { get; set; }
-        public string? StrIngredient1 { get; set; }
-        public string? StrIngredient2 { get; set; }
-        public string? StrIngredient3 { get; set; }
-        public string? StrIngredient4 { get; set; }
-        public string? StrIngredient5 { get; set; }
-        public string? StrIngredient6 { get; set; }
-        public string? StrIngredient7 { get; set; }
-        public string? StrIngredient8 { get; set; }
-        public string? StrIngredient9 { get; set; }
-        public string? StrIngredient10 { get; set; }
-        public string? StrIngredient11 { get; set; }
-        public string? StrIngredient12 { get; set; }
-        public string? StrIngredient13 { get; set; }
-        public string? StrIngredient14 { get; set; }
-        public string? StrIngredient15 { get; set; }
-        public string? StrMeasure1 { get; set; }
-        public string? StrMeasure2 { get; set; }
-        public string? StrMeasure3 { get; set; }
-        public string? StrMeasure4 { get; set; }
-        public string? StrMeasure5 { get; set; }
-        public string? StrMeasure6 { get; set; }
-        public string? StrMeasure7 { get; set; }
-        public string? StrMeasure8 { get; set; }
-        public string? StrMeasure9 { get; set; }
-        public string? StrMeasure10 { get; set; }
-        public string? StrMeasure11 { get; set; }
-        public string? StrMeasure12 { get; set; }
-        public string? StrMeasure13 { get; set; }
-        public string? StrMeasure14 { get; set; }
-        public string? StrMeasure15 { get; set; }
+        public async Task<List<DrinkDto>> SearchCocktailsByName(string name)
+            => (await GetApiResponse<CocktailApiResponse>($"{BaseUrl}search.php?s={name}"))?.Drinks;
+
+        public async Task<List<DrinkDto>> SearchCocktailsByFirstLetter(char letter)
+            => (await GetApiResponse<CocktailApiResponse>($"{BaseUrl}search.php?f={letter}"))?.Drinks;
+
+        public async Task<List<DrinkDto>> SearchCocktailsByIngredient(string ingredient)
+            => (await GetApiResponse<CocktailApiResponse>($"{BaseUrl}filter.php?i={ingredient}"))?.Drinks;
+
+        public async Task<DrinkDto> GetCocktailById(int id)
+            => (await GetApiResponse<CocktailApiResponse>($"{BaseUrl}lookup.php?i={id}"))?.Drinks?.FirstOrDefault();
+
+        public async Task<DrinkDto> GetRandomCocktail()
+            => (await GetApiResponse<CocktailApiResponse>($"{BaseUrl}random.php"))?.Drinks?.FirstOrDefault();
+
+        public async Task<List<IngredientDto>> ListIngredients()
+            => (await GetApiResponse<IngredientApiResponse>($"{BaseUrl}list.php?i=list"))?.Ingredients;
+
+        public async Task<List<DrinkDto>> FilterByAlcoholic(string type) // Alcoholic / Non_Alcoholic
+            => (await GetApiResponse<CocktailApiResponse>($"{BaseUrl}filter.php?a={type}"))?.Drinks;
+
+        public async Task<List<DrinkDto>> FilterByCategory(string category)
+            => (await GetApiResponse<CocktailApiResponse>($"{BaseUrl}filter.php?c={category}"))?.Drinks;
+
+        public async Task<List<DrinkDto>> FilterByGlass(string glass)
+            => (await GetApiResponse<CocktailApiResponse>($"{BaseUrl}filter.php?g={glass}"))?.Drinks;
     }
 }
