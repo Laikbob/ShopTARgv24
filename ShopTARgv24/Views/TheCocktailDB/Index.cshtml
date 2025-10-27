@@ -1,0 +1,17 @@
+﻿@model IEnumerable<ShopTARgv24.Core.Domain.Cocktail>
+
+@{
+    ViewData["Title"] = "Cocktails";
+}
+
+<h1>🍸 Cocktails</h1>
+
+<div style="display:flex; flex-wrap:wrap; gap:10px;">
+    @foreach (var cocktail in Model)
+    {
+        <a asp-action="Details" asp-route-id="@cocktail.Id"
+           style="padding:10px 20px; background:#ff9c00; color:white; border-radius:5px; text-decoration:none;">
+            @cocktail.Name
+        </a>
+    }
+</div>

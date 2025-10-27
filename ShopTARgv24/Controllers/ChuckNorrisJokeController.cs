@@ -14,18 +14,16 @@ namespace ShopTARgv24.Controllers
             _jokeService = jokeService;
         }
 
-        // Action для отображения страницы с кнопкой
         public IActionResult Index()
         {
-            return View();  // Теперь эта строка найдет представление /Views/ChuckNorrisJoke/Index.cshtml
+            return View();  
         }
 
-        // Action для получения случайной шутки
         [HttpGet]
         public async Task<IActionResult> GetRandomJoke()
         {
             var joke = await _jokeService.GetRandomJokeAsync();
-            return Json(new { joke });  // Отправляем шутку в формате JSON
+            return Json(new { joke });  
         }
     }
 }

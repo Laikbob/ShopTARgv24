@@ -47,6 +47,10 @@ namespace ShopTARgv24
                 pattern: "{controller=Home}/{action=Index}/{id?}")
                 .WithStaticAssets();
 
+            app.MapControllerRoute(
+                name: "default",
+                pattern: "{controller=Cocktails}/{action=Index}/{id?}");
+
             app.Run();
         }
     }
