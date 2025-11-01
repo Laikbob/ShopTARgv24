@@ -8,8 +8,8 @@
     <hr />
     <dl class="row">
         <div class="form-group row">
-            <label asp-for="id" class="col-sm-2 col-form-label"></label>
-            @Html.DisplayFor(Model => Model.id)
+            <label asp-for=Id" class="col-sm-2 col-form-label"></label>
+            @Html.DisplayFor(Model => Model.Id)
         </div>
     </dl>
 
@@ -55,11 +55,13 @@
         </div>
     </dl>
 
-    <div>
-        <a asp-action="update" asp-controller="kindergarten" asp-route-id="@Model.id" class="btn btn-primary">Update</a>
-        <a asp-action="delete" asp-controller="kindergarten" asp-route-id="@Model.id" class="btn btn-outline-danger">Delete</a>
-        <a asp-action="index" asp-controller="kindergarten" class="btn btn-primary">Back</a>
-    </div>
+    @foreach (var images in Model.Image)
+    {
+        <partial name="_Images" model="images" />
+    }
 
+    <form asp-action="Back">
+        <a asp-action="index" asp-controller="kindergarten" class="btn btn-primary">Back</a>
+    </form>
 
 </div>

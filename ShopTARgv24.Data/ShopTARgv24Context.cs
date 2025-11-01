@@ -11,5 +11,6 @@ namespace ShopTARgv24.Data
         public DbSet<Kindergarten> Kindergarten { get; set; }
 
         public DbSet<FileToApi> FileToApis { get; set; }
+        public DbSet<FileToDatabase> FileToDatabase { get; set; }
     }
 }

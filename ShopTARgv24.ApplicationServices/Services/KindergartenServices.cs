@@ -24,7 +24,7 @@ namespace ShopTARgv24.ApplicationServices.Services
         {
             Kindergarten kindergarten = new Kindergarten();
 
-            kindergarten.id = Guid.NewGuid();
+            kindergarten.Id = Guid.NewGuid();
             kindergarten.GroupName = dto.GroupName;
             kindergarten.ChildrenCount = dto.ChildrenCount;
             kindergarten.KindergartenName = dto.KindergartenName;
@@ -32,7 +32,10 @@ namespace ShopTARgv24.ApplicationServices.Services
             kindergarten.CreatedAt = DateTime.Now;
             kindergarten.UpdatedAt = DateTime.Now;
 
-            _fileServices.FilesToApi(dto, kindergarten);
+            if (dto.Files != null)
+            {
+                _fileServices.UploadFilesToDatabase(dto, kindergarten);
+            }
 
             await _context.Kindergarten.AddAsync(kindergarten);
             await _context.SaveChangesAsync();
@@ -42,14 +45,26 @@ namespace ShopTARgv24.ApplicationServices.Services
         public async Task<Kindergarten> DetailAsync(Guid id)
         {
             var result = await _context.Kindergarten
-                .FirstOrDefaultAsync(x => x.id == id);
+                .FirstOrDefaultAsync(x => x.Id == id);
 
             return result;
         }
         public async Task<Kindergarten> Delete(Guid id)
         {
             var kindergarten = await _context.Kindergarten
-                .FirstOrDefaultAsync(x => x.id == id);
+                .FirstOrDefaultAsync(x => x.Id == id);
+
+            var images = await _context.FileToDatabase
+            .Where(x => x.KindergartenId == id)
+            .Select(y => new FileToDatabaseDto
+            {
+                Id = y.Id,
+                ImageData = y.ImageData,
+                ImageTitle = y.ImageTitle,
+                KindergartenId = y.KindergartenId
+            }).ToArrayAsync();
+
+            await _fileServices.RemoveImagesFromDatabase(images);
 
             _context.Kindergarten.Remove(kindergarten);
             await _context.SaveChangesAsync();
@@ -60,13 +75,15 @@ namespace ShopTARgv24.ApplicationServices.Services
         {
             Kindergarten domain = new();
 
-            domain.id = dto.id;
+            domain.Id = dto.Id;
             domain.GroupName = dto.GroupName;
             domain.ChildrenCount = dto.ChildrenCount;
             domain.KindergartenName = dto.KindergartenName;
             domain.TeacherName = dto.TeacherName;
             domain.CreatedAt = dto.CreatedAt;
             domain.UpdatedAt = DateTime.Now;
+
+            _fileServices.UploadFilesToDatabase(dto, domain);
 
             _context.Kindergarten.Update(domain);
             await _context.SaveChangesAsync();
