@@ -1,0 +1,7 @@
+﻿@model ShopTARgv24.Models.WeatherModel
+<h2>Ilm linnas @Model.Name</h2>
+<p>Temperatuur: @Model.Main.Temp °C</p>
+<p>Ilm: @Model.Weather[0].Description</p>
+<img src="@($"https://openweathermap.org/img/wn/{Model.Weather[0].Icon}@2x.png")" alt="Weather icon" />
+
+

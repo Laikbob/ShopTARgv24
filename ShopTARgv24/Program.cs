@@ -19,8 +19,6 @@ namespace ShopTARgv24
             builder.Services.AddDbContext<ShopTARgv24Context>(options =>
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-            builder.Services.AddScoped<IKindergartenServices, KindergartenServices>();
-            builder.Services.AddScoped<IFileServices, FileServices>();
 
             var app = builder.Build();
 
