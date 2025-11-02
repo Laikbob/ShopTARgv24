@@ -9,10 +9,18 @@ namespace ShopTARgv24.Controllers
     {
         private readonly OpenWeatherService _service = new OpenWeatherService();
 
-        public async Task<IActionResult> Index(string city = "Tallinn")
+        // GET: /OpenWeather/Index?city=...
+        public async Task<IActionResult> Index(string city)
         {
+            if (string.IsNullOrEmpty(city))
+            {
+                city = "Tallinn"; // значение по умолчанию
+            }
+
             var data = await _service.GetWeatherAsync(city);
             var weather = JsonConvert.DeserializeObject<WeatherModel>(data);
+
+            ViewBag.City = city; // передаем город в View для формы
             return View(weather);
         }
     }
