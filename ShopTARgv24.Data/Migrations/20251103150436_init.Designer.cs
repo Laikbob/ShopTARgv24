@@ -12,7 +12,7 @@ using ShopTARgv24.Data;
 namespace ShopTARgv24.Data.Migrations
 {
     [DbContext(typeof(ShopTARgv24Context))]
-    [Migration("20250930155641_init")]
+    [Migration("20251103150436_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -42,9 +42,29 @@ namespace ShopTARgv24.Data.Migrations
                     b.ToTable("FileToApis");
                 });
 
+            modelBuilder.Entity("ShopTARgv24.Core.Domain.FileToDatabase", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<byte[]>("ImageData")
+                        .HasColumnType("varbinary(max)");
+
+                    b.Property<string>("ImageTitle")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid?>("KindergartenId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("FileToDatabase");
+                });
+
             modelBuilder.Entity("ShopTARgv24.Core.Domain.Kindergarten", b =>
                 {
-                    b.Property<Guid>("id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
@@ -66,7 +86,7 @@ namespace ShopTARgv24.Data.Migrations
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("datetime2");
 
-                    b.HasKey("id");
+                    b.HasKey("Id");
 
                     b.ToTable("Kindergarten");
                 });
