@@ -1,24 +1,33 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
+using ShopTARgv24.Core.Dto;
+using ShopTARgv24.Core.ServiceInterface;
+using Xunit;
 
-namespace ShopTARgv24.
+namespace ShopTARgv24.RealeEstateTest
 {
-    public class RealEstateTest
+    public class RealEstateTest : TestBase
     {
         [Fact]
-        public async Task Test1()
+        public async Task CreateRealEstate_ShouldReturnCreatedEntity()
         {
-            RealEstateDto dto= new ();
+            var dto = new RealEstateDto
+            {
+                Area = 120.5,
+                Location = "Downtown",
+                RoomNumber = 3,
+                BuildingType = "Apartment",
+                CreatedAt = DateTime.Now,
+                ModifiedAt = DateTime.Now
+            };
 
-            dto.Area=120.5;
-            dto.Location= "Downtown";
-            dto.RoomNumber = 3;
-            dto.BuildingType = "Apartament";
-            dto.CreatedAt = DateTime.Now;
-            dto.UpdatedAt = DateTime.Now;
+            var service = Svc<IRealEstateServices>();
 
-            var result = await Svc<IRealEstateServices>().Create(dto);
+            var result = await service.Create(dto);
 
-
+            Assert.NotNull(result);
+            Assert.Equal(dto.Location, result.Location);
+            Assert.Equal(dto.Area, result.Area);
         }
     }
 }
