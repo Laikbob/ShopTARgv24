@@ -5,6 +5,8 @@ using ShopTARgv24.Data;
 using ShopTARgv24.Core.ServiceInterface;
 using ShopTARgv24.RealeEstateTest.Macros;
 using ShopTARgv24.ApplicationServices.Services;
+using Microsoft.Extensions.Hosting;
+using ShopTARgv24.RealeEstateTest.Mock;
 
 namespace ShopTARgv24.RealeEstateTest
 {
@@ -22,6 +24,8 @@ namespace ShopTARgv24.RealeEstateTest
         public virtual void SetupService(IServiceCollection services)
         {
             services.AddScoped<IRealEstateServices, RealEstateServices>();
+            services.AddScoped<IFileServices, FileServices>();
+            //services.AddScoped<IHostEnvironment, MockHostEnviroment>();
 
             services.AddDbContext<ShopTARgv24Context>(x =>
             {
