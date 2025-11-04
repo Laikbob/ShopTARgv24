@@ -25,7 +25,7 @@ namespace ShopTARgv24.RealeEstateTest
         {
             services.AddScoped<IRealEstateServices, RealEstateServices>();
             services.AddScoped<IFileServices, FileServices>();
-            //services.AddScoped<IHostEnvironment, MockHostEnviroment>();
+            services.AddScoped<IHostEnvironment, MockHostEnviroment>();
 
             services.AddDbContext<ShopTARgv24Context>(x =>
             {

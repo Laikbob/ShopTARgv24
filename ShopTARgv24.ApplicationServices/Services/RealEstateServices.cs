@@ -81,6 +81,9 @@ namespace ShopTARgv24.ApplicationServices.Services
 
             return result;
         }
-
+        public async Task<RealEstate?> GetAsync(Guid id)
+        {
+            return await _context.RealEstates.FirstOrDefaultAsync(x => x.Id == id);
+        }
     }
 }
