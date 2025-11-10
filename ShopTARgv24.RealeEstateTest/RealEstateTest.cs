@@ -142,6 +142,10 @@ namespace ShopTARgv24.RealeEstateTest
         public async Task ShouldNot_UpdateRealEstate_WhenDidNotUpdateData()
         {
             //teha test nimega SholdNot_UpdateRealEstate_WhenDidNotUpdateData()
+            RealEstateDto dto = MockRealEstateData();
+            RealEstateDto dto = MockUpdateRealEstateData();
+
+            var service = new RealEstateServices()
 
         }
         private RealEstateDto MockRealEstateData()
