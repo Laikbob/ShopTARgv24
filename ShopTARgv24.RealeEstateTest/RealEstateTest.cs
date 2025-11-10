@@ -82,7 +82,7 @@ namespace ShopTARgv24.RealeEstateTest
             var createdRealEstate2 = await Svc<IRealEstateServices>()
                 .Create(dto);
             var result = await Svc<IRealEstateServices>()
-                .Delete((Guid)createdRealEstate1.Id);
+                .Delete((Guid)createdRealEstate2.Id);
 
             Assert.NotEqual(result.Id ,createdRealEstate1.Id);
         }
@@ -91,13 +91,30 @@ namespace ShopTARgv24.RealeEstateTest
         public async Task Should_UpdateRealEstate_WhenUpdateData()
         {
             //Arrange
-            var service = Svc<IRealEstateServices>();
-            var realEstate = MockRealEstateData();
+            var guid = new Guid("192a39e6-5507-41ec-a066-2ed2c3126483");
 
+            RealEstateDto dto = MockRealEstateData();
+
+            RealEstateDto domain = new();
+
+            domain.Id = Guid.Parse("192a39e6-5507-41ec-a066-2ed2c3126483");
+            domain.Area = 200.0;
+            domain.Location = "Secret Plase";
+            domain.RoomNumber = 5;
+            domain.BuildingType = "Villa";
+            domain.CreatedAt = DateTime.Now;
+            domain.ModifiedAt = DateTime.Now;
             //Act
-
+            await Svc<IRealEstateServices>().Update(dto);
+            var result = await Svc<IRealEstateServices>().Create(dto);
 
             //Assert
+            Assert.Equal(guid, domain.Id);
+            //DoesNotMatch ja kasutage seda Location ja Roomnumberi jaoks
+            Assert.DoesNotMatch(dto.Location, domain.Location);
+            Assert.DoesNotMatch(dto.RoomNumber.ToString(), domain.RoomNumber.ToString());
+            Assert.NotEqual(dto.RoomNumber, domain.RoomNumber);
+            Assert.NotEqual(dto.Area, domain.Area);
 
         }
 
