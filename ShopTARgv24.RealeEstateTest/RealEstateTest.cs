@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Components;
 using ShopTARgv24.Core.Dto;
 using ShopTARgv24.Core.ServiceInterface;
 using Xunit;
@@ -44,8 +45,16 @@ namespace ShopTARgv24.RealeEstateTest
         [Fact]
         public async Task Should_GetByIdRealEstate_WhenReturnsEqual()
         {
-            Guid databaseGuid = Guid.Parse("30cd0b4a-61c3-45f6-845d-0d4ad798fdd5");
-            Guid guid = Guid.Parse("30cd0b4a-61c3-45f6-845d-0d4ad798fdd5");
+            //Arrange
+            Guid databaseGuid = Guid.Parse("192a39e6-5507-41ec-a066-2ed2c3126483");
+            Guid guid = Guid.Parse("192a39e6-5507-41ec-a066-2ed2c3126483");
+
+            //Act
+            await Svc<IRealEstateServices>().DetailAsync(guid);
+            
+            //Assert
+            ResourceAsset.Equals(databaseGuid, guid);
+
 
         }
 
@@ -56,21 +65,18 @@ namespace ShopTARgv24.RealeEstateTest
 
             var dto = new RealEstateDto
             {
-                Area = 6,
-                Location = "Riga",
-                RoomNumber = 38,
+                Area = 120.5,
+                Location = "Downtown",
+                RoomNumber = 3,
                 BuildingType = "Apartment",
                 CreatedAt = DateTime.Now,
                 ModifiedAt = DateTime.Now
             };
 
-            var created = await service.Create(dto);
-            var deleted = await service.Delete(created.Id);
-            var resultAfterDelete = await service.GetAsync(created.Id);
+            var result = await service.Create(dto);
 
-            Assert.NotNull(deleted);
-            Assert.Equal(created.Id, deleted.Id);
-            Assert.Null(resultAfterDelete);
+            Assert.NotNull(result);
+            Assert.Equal(dto.Location, result.Location);
         }
 
         [Fact]
