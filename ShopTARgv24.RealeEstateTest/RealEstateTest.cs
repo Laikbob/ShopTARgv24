@@ -106,7 +106,6 @@ namespace ShopTARgv24.RealeEstateTest
             domain.ModifiedAt = DateTime.Now;
             //Act
             await Svc<IRealEstateServices>().Update(dto);
-            var result = await Svc<IRealEstateServices>().Create(dto);
 
             //Assert
             Assert.Equal(guid, domain.Id);
