@@ -75,6 +75,9 @@ namespace ShopTARgv24.ApplicationServices.Services
         {
             var result = await _context.RealEstates
                 .FirstOrDefaultAsync(x => x.Id == id);
+            
+            if (result == null)
+                return null;
 
             _context.RealEstates.Remove(result);
             await _context.SaveChangesAsync();
