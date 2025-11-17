@@ -34,7 +34,7 @@ namespace ShopTARgv24.RealeEstateTest
             });
 
             RegisterMacros(services);
-        }//
+        }//SetupService
 
         private void RegisterMacros(IServiceCollection services)
         {
