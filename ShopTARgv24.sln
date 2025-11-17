@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.14.36414.22
+# Visual Studio Version 18
+VisualStudioVersion = 18.0.11205.157 d18.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShopTARgv24", "ShopTARgv24\ShopTARgv24.csproj", "{ADB1A279-0589-4E26-B3A8-7CE55C7E248F}"
 EndProject
@@ -11,7 +11,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShopTARgv24.Data", "ShopTAR
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShopTARgv24.Core", "ShopTARgv24.Core\ShopTARgv24.Core.csproj", "{D39801DD-622D-47C1-9395-DA8556BD949A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShopTARgv24.RealeEstateTest", "ShopTARgv24.RealeEstateTest\ShopTARgv24.RealeEstateTest.csproj", "{9187BD06-D97B-438D-A0C3-CAE04BBCC84A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShopTARgv24.RealEstateTest", "ShopTARgv24.RealeEstateTest\ShopTARgv24.RealEstateTest.csproj", "{9187BD06-D97B-438D-A0C3-CAE04BBCC84A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
