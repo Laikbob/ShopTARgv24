@@ -75,11 +75,19 @@ namespace ShopTARgv24.ApplicationServices.Services
         {
             var result = await _context.RealEstates
                 .FirstOrDefaultAsync(x => x.Id == id);
-            
+
             if (result == null)
                 return null;
 
+            // 👉 Удаляем связанные изображения
+            var relatedFiles = _context.FileToDatabase
+                .Where(x => x.RealEstateId == id);
+
+            _context.FileToDatabase.RemoveRange(relatedFiles);
+
+            // 👉 Теперь удаляем недвижимость
             _context.RealEstates.Remove(result);
+
             await _context.SaveChangesAsync();
 
             return result;
