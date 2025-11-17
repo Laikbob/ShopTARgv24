@@ -8,9 +8,9 @@ using ShopTARgv24.Data;
 using ShopTARgv24.RealEstateTest.Mock;
 using ZendeskApi_v2.Requests;
 
-namespace ShopTARgv24.RealEstateTest
+namespace ShopTARgv24.SpaceshipTest
 {
-    public abstract class TestBase
+    public abstract partial class TestBase
     {
         protected IServiceProvider serviceProvider { get; set; }
         protected TestBase()
@@ -22,7 +22,7 @@ namespace ShopTARgv24.RealEstateTest
 
         public virtual void SetupServices(IServiceCollection services)
         {
-            services.AddScoped<IRealEstateServices, RealEstateServices>();
+            services.AddScoped<ISpaceshipsServices, SpaceshipsServices>();
             services.AddScoped<IFileServices, FileServices>();
             services.AddScoped<IHostEnvironment, MockHostEnvironment>();
 
