@@ -215,13 +215,6 @@ namespace ShopTARgv24.RealEstateTest
         }
 
         [Fact]
-        public async Task
-        {
-
-
-        }
-
-        [Fact]
         public async Task Should_AddValidRealEstate_WhenDataTypeIsValid()
         {
             var dto = new RealEstateDto
@@ -304,6 +297,158 @@ namespace ShopTARgv24.RealEstateTest
 
             // assert – kontrollime, et uuendamisel ei uuendaks CreatedAt
             Assert.Equal(DateTime.Parse(originalCreatedAt), result.CreatedAt);
+        }
+        [Fact]
+        public async Task Should_AssignUniqueIds_When_CreateMultiple()
+        {
+            // Arrange
+            var dto1 = new RealEstateDto
+            {
+                Area = 40,
+                Location = "Pärnu",
+                RoomNumber = 1,
+                BuildingType = "Studio",
+                CreatedAt = DateTime.Now,
+                ModifiedAt = DateTime.Now
+            };
+            var dto2 = new RealEstateDto
+            {
+                Area = 85,
+                Location = "Tartu",
+                RoomNumber = 3,
+                BuildingType = "Apartment",
+                CreatedAt = DateTime.Now,
+                ModifiedAt = DateTime.Now
+            };
+
+            // Act
+            var r1 = await Svc<IRealEstateServices>().Create(dto1);
+            var r2 = await Svc<IRealEstateServices>().Create(dto2);
+
+            // Assert
+            Assert.NotNull(r1);
+            Assert.NotNull(r2);
+            Assert.NotEqual(r1.Id, r2.Id);
+            Assert.NotEqual(Guid.Empty, r1.Id);
+            Assert.NotEqual(Guid.Empty, r2.Id);
+        }
+        
+        [Fact]
+        public async Task ShouldNot_UpdateRealEstate_WhenIdDoesNotExist()
+        {
+            // Arrange
+            RealEstateDto update = MockUpdateRealEstateData();
+            update.Id = Guid.NewGuid();
+
+            // Act & Assert
+            await Assert.ThrowsAsync<DbUpdateConcurrencyException>(async () =>
+            {
+                await Svc<IRealEstateServices>().Update(update);
+            });
+        }
+        [Fact]
+        public async Task Should_ReturnSameRealEstate_WhenGetDetailsAfterCreate()
+        {
+            // Arrange
+            RealEstateDto dto = MockRealEstateData();
+
+            // Act
+            var created = await Svc<IRealEstateServices>().Create(dto);
+            var fetched = await Svc<IRealEstateServices>().DetailAsync((Guid)created.Id);
+
+            // Assert
+            Assert.NotNull(fetched);
+            Assert.Equal(created.Id, fetched.Id);
+            Assert.Equal(created.Location, fetched.Location);
+        }
+
+        [Fact]
+        public async Task Should_AddRealEstate_WhenAreaIsNegative()
+        {
+            // Arrange
+            var service = Svc<IRealEstateServices>();
+            RealEstateDto dto = MockRealEstateData();
+            dto.Area = -10;
+
+            // Act
+            var created = await service.Create(dto);
+
+            // Assert
+            Assert.NotNull(created);
+            Assert.Equal(dto.Area, created.Area);
+            Assert.True(created.Area < 0);
+        }
+
+        [Fact]
+        public async Task Should_AddRealEstate_WhenAllFieldsAreNull()
+        {
+            // Arrange
+            var service = Svc<IRealEstateServices>();
+            RealEstateDto emptyDto = MockNullRealEstateData();
+
+            // Act
+            var created = await service.Create(emptyDto);
+
+            // Assert
+            Assert.NotNull(created);
+
+            Assert.Null(created.Area);
+            Assert.True(string.IsNullOrWhiteSpace(created.Location));
+            Assert.Null(created.RoomNumber);
+            Assert.True(string.IsNullOrWhiteSpace(created.BuildingType));
+        }
+
+        [Fact]
+        public async Task Should_Allow_ModifiedAt_Before_CreatedAt()
+        {
+            // Arrange
+            var service = Svc<IRealEstateServices>();
+
+            RealEstateDto original = MockRealEstateData();
+            RealEstateDto update = MockRealEstateData();
+
+            update.ModifiedAt = DateTime.Now.AddYears(-1);
+            var created = await service.Create(original);
+
+            // Act
+            var result = await service.Update(update);
+
+            // Assert
+            Assert.NotNull(result);
+            Assert.True(result.ModifiedAt >= result.CreatedAt);
+        }
+
+        [Fact]
+        public async Task ShouldNot_GetRealEstate_WhenIdNotExists()
+        {
+            // Arrange
+            var fakeId = Guid.NewGuid();
+
+            // Act
+            var result = await Svc<IRealEstateServices>().DetailAsync(fakeId);
+
+            // Assert
+            Assert.Null(result);
+        }
+
+        [Fact]
+        public async Task Should_UpdateRealEstate_ModifiedAtShouldChange()
+        {
+            // Arrange
+            var dto1 = MockRealEstateData();
+
+            var created = await Svc<IRealEstateServices>().Create(dto1);
+            var oldModified = created.ModifiedAt;
+
+            var dto = MockUpdateRealEstateData();
+            //dto.Id = created.Id;
+
+            // Act
+            var updated = await Svc<IRealEstateServices>().Update(dto);
+
+            // Assert
+            Assert.NotNull(updated);
+            Assert.NotEqual(oldModified, updated.ModifiedAt);
         }
 
 
