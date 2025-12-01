@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.EntityFrameworkCore;
 using ShopTARgv24.Core.Dto;
 using ShopTARgv24.Core.ServiceInterface;
 using ShopTARgv24.Data;
@@ -23,7 +24,7 @@ namespace ShopTARgv24.SpaceshipTest
                 ModifiedAt = DateTime.Now
             };
         }
-
+        
         private SpaceshipDto MockUpdatedSpaceshipData(Guid id)
         {
             return new SpaceshipDto
@@ -42,7 +43,9 @@ namespace ShopTARgv24.SpaceshipTest
         }
 
         // ----------------------------------------------------------------------
-        [Fact]
+        //Цель: Убедиться, что метод Create работает корректно с валидными данными.
+        
+                [Fact]
         public async Task Should_CreateSpaceship_WithValidData()
         {
             SpaceshipDto dto = MockSpaceshipData();
@@ -54,6 +57,7 @@ namespace ShopTARgv24.SpaceshipTest
         }
 
         // ----------------------------------------------------------------------
+        // Цель: Проверить, что после создания объекта можно получить тот же объект по его Id.
         [Fact]
         public async Task Should_ReturnSameSpaceship_WhenGetDetailsAfterCreate()
         {
@@ -68,6 +72,9 @@ namespace ShopTARgv24.SpaceshipTest
         }
 
         // ----------------------------------------------------------------------
+        //Цель: Убедиться, что удаление объекта работает корректно и возвращает удалённый объект.
+        
+
         [Fact]
         public async Task Should_DeleteSpaceship_WhenDeleteById()
         {
@@ -79,7 +86,9 @@ namespace ShopTARgv24.SpaceshipTest
         }
 
         // ----------------------------------------------------------------------
-        [Fact]
+        // Цель: Проверить корректное обновление объекта и что данные реально изменяются.
+        
+         [Fact]
         public async Task Should_UpdateSpaceship_WhenUpdateData()
         {
             var dto = MockSpaceshipData();
@@ -97,16 +106,27 @@ namespace ShopTARgv24.SpaceshipTest
         }
 
         // ----------------------------------------------------------------------
+        //Цель: Проверить корректное обновление объекта и что данные реально изменяются.
+
         [Fact]
         public async Task ShouldNot_UpdateSpaceship_WhenIdDoesNotExist()
         {
+            // Arrange
             SpaceshipDto update = MockSpaceshipData();
             update.Id = Guid.NewGuid();
 
-            await Assert.ThrowsAsync<DbUpdateConcurrencyException>(async () =>
+            // Act & Assert
+            try
             {
                 await Svc<ISpaceshipsServices>().Update(update);
-            });
+                // Если исключение не выброшено — тест должен провалиться
+                Assert.True(false, "Expected DbUpdateConcurrencyException was not thrown.");
+            }
+            catch (DbUpdateConcurrencyException ex)
+            {
+                // Проверяем, что это именно наше ожидаемое исключение
+                Assert.NotNull(ex);
+            }
         }
     }
 }

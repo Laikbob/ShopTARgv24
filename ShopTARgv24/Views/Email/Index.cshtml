@@ -1,0 +1,34 @@
+﻿@model ShopTARgv24.Models.Email.EmailViewModel
+
+@{
+    ViewData["Title"] = "E-kirja saatmine";
+}
+
+<h2>E-kirja saatmine</h2>
+
+<form asp-action="SendEmail" method="post" enctype="multipart/form-data">
+    <div>
+        <label>Kellele:</label>
+        <input asp-for="To" />
+        <span asp-validation-for="To"></span>
+    </div>
+    <div>
+        <label>Teema:</label>
+        <input asp-for="Subject" />
+        <span asp-validation-for="Subject"></span>
+    </div>
+    <div>
+        <label>Kirja sisu:</label>
+        <textarea asp-for="Body"></textarea>
+        <span asp-validation-for="Body"></span>
+    </div>
+    <div>
+        <label>Manused:</label>
+        <input type="file" name="files" multiple />
+    </div>
+    <button type="submit">Saada</button>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

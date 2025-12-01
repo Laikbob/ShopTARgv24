@@ -73,25 +73,29 @@ namespace ShopTARgv24.ApplicationServices.Services
 
         public async Task<RealEstate> Delete(Guid id)
         {
-            var result = await _context.RealEstates
+            var realEstate = await _context.RealEstates
                 .FirstOrDefaultAsync(x => x.Id == id);
 
-            if (result == null)
+            if (realEstate == null)
                 return null;
 
-            // 👉 Удаляем связанные изображения
-            var relatedFiles = _context.FileToDatabase
-                .Where(x => x.RealEstateId == id);
+            // Получаем связанные изображения
+            var relatedFiles = await _context.FileToDatabase
+                .Where(x => x.RealEstateId == id)
+                .ToListAsync();
 
+            // Удаляем записи изображений из базы
             _context.FileToDatabase.RemoveRange(relatedFiles);
 
-            // 👉 Теперь удаляем недвижимость
-            _context.RealEstates.Remove(result);
+            // Удаляем недвижимость
+            _context.RealEstates.Remove(realEstate);
 
             await _context.SaveChangesAsync();
 
-            return result;
+            return realEstate;
         }
+
+
         public async Task<RealEstate?> GetAsync(Guid id)
         {
             return await _context.RealEstates.FirstOrDefaultAsync(x => x.Id == id);
