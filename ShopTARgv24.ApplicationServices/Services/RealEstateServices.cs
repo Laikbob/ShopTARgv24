@@ -57,6 +57,11 @@ namespace ShopTARgv24.ApplicationServices.Services
             domain.CreatedAt = dto.CreatedAt;
             domain.ModifiedAt = DateTime.Now;
 
+            if (dto.Files != null)
+            {
+                _fileServices.UploadFilesToDatabase(dto, domain);
+            }
+
             _context.RealEstates.Update(domain);
             await _context.SaveChangesAsync();
 
@@ -73,32 +78,23 @@ namespace ShopTARgv24.ApplicationServices.Services
 
         public async Task<RealEstate> Delete(Guid id)
         {
-            var realEstate = await _context.RealEstates
+            var result = await _context.RealEstates
                 .FirstOrDefaultAsync(x => x.Id == id);
 
-            if (realEstate == null)
-                return null;
-
-            // Получаем связанные изображения
-            var relatedFiles = await _context.FileToDatabase
+            var images = await _context.FileToDatabase
                 .Where(x => x.RealEstateId == id)
-                .ToListAsync();
+                .Select(x => new FileToDatabaseDto
+                {
+                    Id = x.Id,
+                    ImageTitle = x.ImageTitle,
+                    RealEstateId = x.RealEstateId
+                }).ToArrayAsync();
 
-            // Удаляем записи изображений из базы
-            _context.FileToDatabase.RemoveRange(relatedFiles);
-
-            // Удаляем недвижимость
-            _context.RealEstates.Remove(realEstate);
-
+            await _fileServices.RemoveImagesFromDatabase(images);
+            _context.RealEstates.Remove(result);
             await _context.SaveChangesAsync();
 
-            return realEstate;
-        }
-
-
-        public async Task<RealEstate?> GetAsync(Guid id)
-        {
-            return await _context.RealEstates.FirstOrDefaultAsync(x => x.Id == id);
+            return result;
         }
     }
 }

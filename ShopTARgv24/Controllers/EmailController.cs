@@ -1,19 +1,20 @@
-﻿using MailKit;
-using Microsoft.AspNetCore.Mvc;
-using ShopTARgv24.ApplicationServices.Services;
+﻿using Microsoft.AspNetCore.Mvc;
+using ShopTARgv24.Core.Dto;
 using ShopTARgv24.Core.ServiceInterface;
 using ShopTARgv24.Models.Email;
-using ShopTARgv24.Core.Dto;
 
 namespace ShopTARgv24.Controllers
 {
     public class EmailController : Controller
     {
-        private readonly IEmailServices _emailServices;
+        private readonly IEmailServices _emailService;
 
-        public EmailController(IEmailServices emailServices)
+        public EmailController
+            (
+                IEmailServices emailService
+            )
         {
-            _emailServices = emailServices;
+            _emailService = emailService;
         }
 
         public IActionResult Index()
@@ -21,6 +22,8 @@ namespace ShopTARgv24.Controllers
             return View();
         }
 
+        //teha meetod nimega SendEmail, mis võtab vastu EmailDto objekti
+        //kasutab EmailServices klassi, et saata email
         [HttpPost]
         public IActionResult SendEmail(EmailViewModel vm)
         {
@@ -34,10 +37,9 @@ namespace ShopTARgv24.Controllers
                 Attachment = files
             };
 
-            _emailServices.SendEmail(dto);
+            _emailService.SendEmail(dto);
 
             return RedirectToAction(nameof(Index));
-
         }
     }
 }

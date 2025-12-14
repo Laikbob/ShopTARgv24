@@ -6,11 +6,13 @@ using ShopTARgv24.Core.Dto;
 using ShopTARgv24.Core.ServiceInterface;
 
 
+
 namespace ShopTARgv24.ApplicationServices.Services
 {
     public class EmailServices : IEmailServices
     {
         private readonly IConfiguration _config;
+
         public EmailServices
             (
                 IConfiguration config
@@ -18,6 +20,7 @@ namespace ShopTARgv24.ApplicationServices.Services
         {
             _config = config;
         }
+
         public void SendEmail(EmailDto dto)
         {
             var email = new MimeMessage();
@@ -30,7 +33,9 @@ namespace ShopTARgv24.ApplicationServices.Services
                 HtmlBody = dto.Body
             };
 
-            foreach (var file in dto.Attachment)
+            //vaja teha foreach, kus saab lisada mitu faili
+            //vaja kasutada kontrolli, kus kui faili pole, siis ei lisa
+            foreach (var  file in dto.Attachment)
             {
                 if (file.Length > 0)
                 {
@@ -44,23 +49,26 @@ namespace ShopTARgv24.ApplicationServices.Services
             }
             email.Body = builder.ToMessageBody();
 
+
             using var smtp = new SmtpClient();
 
             smtp.Connect(_config.GetSection("EmailHost").Value, 587, SecureSocketOptions.StartTls);
-            smtp.Authenticate(_config.GetSection("EmailUsername").Value, _config.GetSection("EmailPassword").Value);
+            smtp.Authenticate(_config.GetSection("EmailUserName").Value, _config.GetSection("EmailPassword").Value);
             smtp.Send(email);
             smtp.Disconnect(true);
         }
+
+
         public void SendEmailToken(EmailTokenDto dto, string token)
         {
             dto.Token = token;
             var email = new MimeMessage();
 
+            _config.GetSection("EmailUserName").Value = "";
             _config.GetSection("EmailHost").Value = "smtp.gmail.com";
-            _config.GetSection("EmailUsername").Value = "";
             _config.GetSection("EmailPassword").Value = "";
 
-            email.From.Add(MailboxAddress.Parse(_config.GetSection("EmailUsername").Value));
+            email.From.Add(MailboxAddress.Parse(_config.GetSection("EmailUserName").Value));
             email.To.Add(MailboxAddress.Parse(dto.To));
             email.Subject = dto.Subject;
             var builder = new BodyBuilder
@@ -72,7 +80,7 @@ namespace ShopTARgv24.ApplicationServices.Services
             using var smtp = new SmtpClient();
 
             smtp.Connect(_config.GetSection("EmailHost").Value, 587, SecureSocketOptions.StartTls);
-            smtp.Authenticate(_config.GetSection("EmailUsername").Value, _config.GetSection("EmailPassword").Value);
+            smtp.Authenticate(_config.GetSection("EmailUserName").Value, _config.GetSection("EmailPassword").Value);
             smtp.Send(email);
             smtp.Disconnect(true);
         }

@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using ShopTARgv24.Core.Dto;
+using ShopTARgv24.Core.Dto.AccuWeatherDto;
 using ShopTARgv24.Core.ServiceInterface;
 using ShopTARgv24.Models.Weather;
 
@@ -26,7 +26,7 @@ namespace ShopTARgv24.Controllers
         [HttpPost]
         public IActionResult SearchCity(AccuWeatherSearchViewModel model)
         {
-            if (ModelState.IsValid)
+            if(ModelState.IsValid)
             {
                 return RedirectToAction("City", "Weather", new { city = model.CityName });
             }
@@ -36,14 +36,14 @@ namespace ShopTARgv24.Controllers
 
         [HttpGet]
         public IActionResult City(string city)
-        {
+        {            
             AccuLocationWeatherResultDto dto = new();
             dto.CityName = city;
 
             //_weatherForecastServices.AccuWeatherResult(dto);
             _weatherForecastServices.AccuWeatherResultWebClient(dto);
             AccuWeatherViewModel vm = new();
-            //vm.CityName = dto.CityName;
+            vm.CityName = dto.CityName;
             vm.EffectiveDate = dto.EffectiveDate;
             vm.EffectiveEpochDate = dto.EffectiveEpochDate;
             vm.Severity = dto.Severity;

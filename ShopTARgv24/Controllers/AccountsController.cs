@@ -1,11 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using ShopTARgv24.ApplicationServices.Services;
 using ShopTARgv24.Core.Domain;
 using ShopTARgv24.Core.Dto;
-using ShopTARgv24.Core.Dto;
-using ShopTARgv24.Core.ServiceInterface;
 using ShopTARgv24.Core.ServiceInterface;
 using ShopTARgv24.Models;
 using ShopTARgv24.Models.Accounts;
@@ -30,6 +27,7 @@ namespace ShopTARgv24.Controllers
             _signInManager = signInManager;
             _emailServices = emailServices;
         }
+
         public IActionResult Register()
         {
             return View();
@@ -38,7 +36,6 @@ namespace ShopTARgv24.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-
         public async Task<IActionResult> Register(RegisterViewModel vm)
         {
             if (ModelState.IsValid)
@@ -48,7 +45,7 @@ namespace ShopTARgv24.Controllers
                     UserName = vm.Email,
                     Name = vm.Name,
                     Email = vm.Email,
-                    City = vm.City
+                    City = vm.City,
                 };
 
                 var result = await _userManager.CreateAsync(user, vm.Password);
@@ -56,17 +53,17 @@ namespace ShopTARgv24.Controllers
                 if (result.Succeeded)
                 {
                     var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-                    var confirmationLink = Url.Action("confirmEmail", "Accounts", new { userId = user.Id, token = token }, Request.Scheme);
+                    var confirmationLink = Url.Action("ConfirmEmail", "Accounts", new { userId = user.Id, token = token }, Request.Scheme);
 
                     EmailTokenDto newsignup = new();
                     newsignup.Token = token;
-                    newsignup.Body = $"Please register your account by: <a href=\"{confirmationLink}\">clicking here </a>";
+                    newsignup.Body = $"Please registrate your account by: <a href=\"{confirmationLink}\">clicking here </a>";
                     newsignup.Subject = "CRUD registration";
                     newsignup.To = user.Email;
 
-                    if (_signInManager.IsSignedIn(User) && User.IsInRole("Admin"))
+                    if(_signInManager.IsSignedIn(User) && User.IsInRole("Admin"))
                     {
-                        return RedirectToAction("ListUsers", "Administration");
+                        return RedirectToAction("ListUsers", "Administrations");
                     }
 
                     _emailServices.SendEmailToken(newsignup, token);
@@ -80,19 +77,21 @@ namespace ShopTARgv24.Controllers
                         ];
                     ViewBag.ErrorDatas = errordatas;
                     ViewBag.ErrorTitle = "You have successfully registrated";
-                    ViewBag.ErrorMessage = "Before you can login, please confirm email from the link" +
+                    ViewBag.ErrorMessage = "Before you can logi in, please confirm email from the link" +
                         "\nwe have emailed to your email address";
 
                     return View("ConfirmEmailMessage");
                 }
 
-                foreach (var error in result.Errors)
+                foreach(var error in result.Errors)
                 {
                     ModelState.AddModelError("", error.Description);
                 }
             }
+
             return View();
         }
+
         [HttpGet]
         [AllowAnonymous]
         public async Task<IActionResult> ConfirmEmail(string userId, string token)
@@ -116,7 +115,7 @@ namespace ShopTARgv24.Controllers
                         "ActedOn", $"{user.Email}",
                         "CreatedAccountData", $"{user.Email}\n{user.City}\n[password hidden]\n[password hidden]"
                         ];
-            if (result.Succeeded)
+            if(result.Succeeded)
             {
                 errordatas =
                         [
@@ -133,14 +132,13 @@ namespace ShopTARgv24.Controllers
             ViewBag.ErrorDatas = errordatas;
             ViewBag.ErrorTitle = "Email cannot be confirmed";
             ViewBag.ErrorMessage = $"The users email, with userid of {userId}, cannot be confirmed.";
-            return View("Error", new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            return View("Error", new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier});
         }
 
         [HttpGet]
         [AllowAnonymous]
-        public async Task<IActionResult> Login(string? returnUrl)
+        public IActionResult Login()
         {
-
             return View();
         }
     }

@@ -1,6 +1,6 @@
-﻿namespace ShopTARgv24.Core.Dto
+﻿namespace ShopTARgv24.Core.Dto.AccuWeatherDto
 {
-    public class AccuLocationRootDto
+public class AccuLocationRootDto
     {
         public Headline Headline { get; set; }
         public Dailyforecast[] DailyForecasts { get; set; }
@@ -67,4 +67,3 @@
         public bool HasPrecipitation { get; set; }
     }
 }
-

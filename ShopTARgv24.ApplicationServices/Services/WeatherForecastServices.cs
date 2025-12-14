@@ -1,5 +1,5 @@
 ﻿using Nancy.Json;
-using ShopTARgv24.Core.Dto;
+using ShopTARgv24.Core.Dto.AccuWeatherDto;
 using ShopTARgv24.Core.Dto.WeatherWebClientDto;
 using ShopTARgv24.Core.ServiceInterface;
 using System.Net;
@@ -15,7 +15,7 @@ namespace ShopTARgv24.ApplicationServices.Services
         {
             //https://developer.accuweather.com/core-weather/text-search?lang=shell#city-search
 
-            string accuApiKey = "zpka_f5bf42dce6764a8b828f49ab0604be74_eb19ec93";
+            string accuApiKey = "zpka_0c86f3fafa9147e58813fa06b647f221_9b9fd9d9";
             string baseUrl = "http://dataservice.accuweather.com/forecasts/v1/daily/1day/";
 
             using (var httpClient = new HttpClient())

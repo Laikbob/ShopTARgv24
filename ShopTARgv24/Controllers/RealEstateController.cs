@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using ShopTARgv24.ApplicationServices.Services;
 using ShopTARgv24.Core.Dto;
 using ShopTARgv24.Core.ServiceInterface;
 using ShopTARgv24.Data;
 using ShopTARgv24.Models.RealEstate;
+using ShopTARgv24.Models.Spaceships;
 
 
 namespace ShopTARgv24.Controllers
@@ -18,11 +18,13 @@ namespace ShopTARgv24.Controllers
         public RealEstateController
             (
                 ShopTARgv24Context context,
-                IRealEstateServices realEstateServices
+                IRealEstateServices realEstateServices,
+                IFileServices fileServices
             )
         {
             _context = context;
             _realEstateServices = realEstateServices;
+            _fileServices = fileServices;
         }
 
         public IActionResult Index()
@@ -50,6 +52,11 @@ namespace ShopTARgv24.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(RealEstateCreateUpdateViewModel vm)
         {
+            if (!ModelState.IsValid)
+            {
+                return View("CreateUpdate", vm);
+            }
+
             var dto = new RealEstateDto()
             {
                 Id = vm.Id,
@@ -71,13 +78,14 @@ namespace ShopTARgv24.Controllers
             };
 
             var result = await _realEstateServices.Create(dto);
+            var realEstateId = result.Id;
 
             if (result == null)
             {
                 return RedirectToAction(nameof(Index));
             }
 
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(Update), new {id = realEstateId});
         }
 
         [HttpGet]
@@ -87,7 +95,7 @@ namespace ShopTARgv24.Controllers
 
             if (realEstate == null)
             {
-                return NotFound();
+                return View("NotFound", id);
             }
 
             RealEstateImageViewModel[] photos = await FilesFromDatabase(id);
@@ -109,6 +117,11 @@ namespace ShopTARgv24.Controllers
         [HttpPost]
         public async Task<IActionResult> Update(RealEstateCreateUpdateViewModel vm)
         {
+            if(!ModelState.IsValid)
+            {
+                return View("CreateUpdate", vm);
+            }
+
             var dto = new RealEstateDto()
             {
                 Id = vm.Id,
@@ -118,16 +131,27 @@ namespace ShopTARgv24.Controllers
                 Location = vm.Location,
                 CreatedAt = vm.CreatedAt,
                 ModifiedAt = vm.ModifiedAt,
+                Files = vm.Files,
+                Image = vm.Image
+                    .Select(x => new FileToDatabaseDto
+                    {
+                        Id = x.ImageId,
+                        ImageData = x.ImageData,
+                        ImageTitle = x.ImageTitle,
+                        RealEstateId = x.RealEstateId
+                    }).ToArray()
             };
 
             var result = await _realEstateServices.Update(dto);
+
+            var realEstateId = result.Id;
 
             if (result == null)
             {
                 return RedirectToAction(nameof(Index));
             }
 
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(Update), new {id = realEstateId });
         }
 
         [HttpGet]
@@ -137,7 +161,7 @@ namespace ShopTARgv24.Controllers
 
             if (realEstate == null)
             {
-                return NotFound();
+                return View("NotFound", id);
             }
 
             RealEstateImageViewModel[] photos = await FilesFromDatabase(id);
@@ -177,7 +201,7 @@ namespace ShopTARgv24.Controllers
 
             if (realEstate == null)
             {
-                return NotFound();
+                return View("NotFound", id);
             }
 
             RealEstateImageViewModel[] photos = await FilesFromDatabase(id);
@@ -227,7 +251,7 @@ namespace ShopTARgv24.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            return RedirectToAction(nameof(Update), new { id = realEstateId });
+            return RedirectToAction(nameof(Update), new {id = realEstateId});
         }
     }
 }

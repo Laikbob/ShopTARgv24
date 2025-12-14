@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System.Text.Json.Serialization;
 
+
 namespace ShopTARgv24.Core.Dto.WeatherWebClientDto
 {
     public class AccuWeatherRootWebClientDto

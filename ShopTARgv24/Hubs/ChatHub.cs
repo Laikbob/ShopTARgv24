@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.SignalR;
-using System.Threading.Tasks;
 
 namespace ShopTARgv24.Hubs
 {
@@ -9,5 +8,6 @@ namespace ShopTARgv24.Hubs
         {
             await Clients.All.SendAsync("ReceiveMessage", user, message);
         }
+
     }
 }

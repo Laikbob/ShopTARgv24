@@ -1,5 +1,4 @@
-﻿
-namespace ShopTARgv24.Core.Dto
+﻿namespace ShopTARgv24.Core.Dto.AccuWeatherDto
 {
     public class AccuLocationWeatherResultDto
     {
@@ -7,12 +6,12 @@ namespace ShopTARgv24.Core.Dto
         public string CityCode { get; set; } = string.Empty;
 
         public string EffectiveDate { get; set; } = string.Empty;
-        public Int64 EffectiveEpochDate { get; set; }
+        public long EffectiveEpochDate { get; set; }
         public int Severity { get; set; }
         public string Text { get; set; } = string.Empty;
         public string Category { get; set; } = string.Empty;
-        public string EndDate { get; set; }
-        public Int64 EndEpochDate { get; set; }
+        public string EndDate { get; set; } 
+        public long EndEpochDate { get; set; }
 
 
         public string DailyForecastsDate { get; set; } = string.Empty;

@@ -1,29 +1,52 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using ShopTARgv24.ApplicationServices.Services;
-using System.Threading.Tasks;
+using ShopTARgv24.Core.Dto.ChuckNorrisDto;
+using ShopTARgv24.Core.ServiceInterface;
+using ShopTARgv24.Models.ChuckNorris;
 
 
 namespace ShopTARgv24.Controllers
 {
     public class ChuckNorrisController : Controller
     {
-        private readonly ChuckNorrisService _Service;
+        private readonly IChuckNorrisServices _chuckNorrisServices;
 
-        public ChuckNorrisController(ChuckNorrisService jokeService)
+        public ChuckNorrisController
+            (
+                IChuckNorrisServices chuckNorrisServices
+            )
         {
-            _Service = jokeService;
+            _chuckNorrisServices = chuckNorrisServices;
         }
 
         public IActionResult Index()
         {
-            return View();  
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult SearchChuckNorrisJokes(ChuckNorrisViewModel model)
+        {
+            return RedirectToAction(nameof(Joke));
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetRandomJoke()
+        public async Task<IActionResult>Joke()
         {
-            var joke = await _Service.GetRandomJokeAsync();
-            return Json(new { joke });  
+            //ChuckNorrisResultDto dto = new();
+
+            var joke = await _chuckNorrisServices.ChuckNorrisResultHttpClient();
+            //_chuckNorrisServices.ChuckNorrisResult(joke);
+            ChuckNorrisViewModel vm = new();
+
+            //vm.Categories = joke.Categories;
+            vm.CreatedAt = joke.CreatedAt;
+            vm.IconUrl = joke.IconUrl;
+            vm.Id = joke.Id;
+            vm.UpdatedAt = joke.UpdatedAt;
+            vm.Url = joke.Url;
+            vm.Value = joke.Value;
+
+            return View(vm);
         }
     }
 }

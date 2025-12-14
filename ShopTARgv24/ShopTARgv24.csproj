@@ -30,6 +30,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Models\ChuckNorris\" />
     <Folder Include="wwwroot\js\mi\" />
     <Folder Include="wwwroot\multipleFileUpload\" />
   </ItemGroup>

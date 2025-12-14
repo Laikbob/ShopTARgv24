@@ -19,7 +19,7 @@ namespace ShopTARgv24.ApplicationServices.Services
             )
         {
             _context = context;
-            _fileServices = fileServices;
+           _fileServices = fileServices;
         }
 
         public async Task<Spaceship> Create(SpaceshipDto dto)
