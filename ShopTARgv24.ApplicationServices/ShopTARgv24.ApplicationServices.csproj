@@ -8,9 +8,14 @@
 
   <ItemGroup>
     <PackageReference Include="MailKit.Security.SaslMechanismNtlmIntegrated" Version="0.2.0" />
+    <PackageReference Include="Microsoft.AspNet.Identity.AspNetCoreCompat" Version="0.3.4" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.3.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="9.0.8" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.3.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.10" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.10" />
     <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="9.0.10" />
+    <PackageReference Include="Microsoft.Identity.Client" Version="4.61.3" />
     <PackageReference Include="MimeKit" Version="4.14.0" />
     <PackageReference Include="Nancy" Version="2.0.0" />
   </ItemGroup>

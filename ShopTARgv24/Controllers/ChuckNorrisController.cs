@@ -5,13 +5,13 @@ using System.Threading.Tasks;
 
 namespace ShopTARgv24.Controllers
 {
-    public class ChuckNorrisJokeController : Controller
+    public class ChuckNorrisController : Controller
     {
-        private readonly ChuckNorrisJokeService _jokeService;
+        private readonly ChuckNorrisService _Service;
 
-        public ChuckNorrisJokeController(ChuckNorrisJokeService jokeService)
+        public ChuckNorrisController(ChuckNorrisService jokeService)
         {
-            _jokeService = jokeService;
+            _Service = jokeService;
         }
 
         public IActionResult Index()
@@ -22,7 +22,7 @@ namespace ShopTARgv24.Controllers
         [HttpGet]
         public async Task<IActionResult> GetRandomJoke()
         {
-            var joke = await _jokeService.GetRandomJokeAsync();
+            var joke = await _Service.GetRandomJokeAsync();
             return Json(new { joke });  
         }
     }

@@ -1,7 +1,7 @@
 ﻿
 namespace ShopTARgv24.Core.Domain
 {
-    public class ChuckNorrisJoke
+    public class ChuckNorris
     {
         public string Value { get; set; }
     }
