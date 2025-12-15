@@ -73,22 +73,26 @@ namespace ShopTARgv24.ApplicationServices.Services
         }
         public async Task<Kindergarten> Update(KindergartenDto dto)
         {
-            Kindergarten domain = new();
+            
+            var domain = await _context.Kindergarten
+                .FirstOrDefaultAsync(x => x.Id == dto.Id!.Value);
 
-            domain.Id = dto.Id;
+            if (domain == null)
+                throw new InvalidOperationException("Kindergarten not found");
+
             domain.GroupName = dto.GroupName;
             domain.ChildrenCount = dto.ChildrenCount;
             domain.KindergartenName = dto.KindergartenName;
             domain.TeacherName = dto.TeacherName;
-            domain.CreatedAt = dto.CreatedAt;
             domain.UpdatedAt = DateTime.Now;
 
             _fileServices.UploadFilesToDatabase(dto, domain);
 
-            _context.Kindergarten.Update(domain);
             await _context.SaveChangesAsync();
 
             return domain;
         }
+
+
     }
 }
