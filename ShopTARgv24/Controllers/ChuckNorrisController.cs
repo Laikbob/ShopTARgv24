@@ -30,7 +30,7 @@ namespace ShopTARgv24.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult>Joke()
+        public async Task<IActionResult> GetRandomJoke()
         {
             //ChuckNorrisResultDto dto = new();
 
