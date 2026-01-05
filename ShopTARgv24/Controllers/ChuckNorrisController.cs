@@ -10,6 +10,8 @@ namespace ShopTARgv24.Controllers
     {
         private readonly IChuckNorrisServices _chuckNorrisServices;
 
+        public object Joke { get; private set; }
+
         public ChuckNorrisController
             (
                 IChuckNorrisServices chuckNorrisServices
