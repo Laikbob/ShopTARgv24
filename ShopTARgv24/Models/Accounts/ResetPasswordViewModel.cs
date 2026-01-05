@@ -12,7 +12,7 @@ namespace ShopTARgv24.Models.Accounts
         public string Password { get; set; } = string.Empty;
 
         [DataType(DataType.Password)]
-        [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+        [Compare("Password", ErrorMessage = "Password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; } = string.Empty;
 
         public string Token { get; set; } = string.Empty;

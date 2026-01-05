@@ -12,8 +12,8 @@ using ShopTARgv24.Data;
 namespace ShopTARgv24.Data.Migrations
 {
     [DbContext(typeof(ShopTARgv24Context))]
-    [Migration("20251110115924_Init")]
-    partial class Init
+    [Migration("20260105123229_init")]
+    partial class init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -33,9 +33,6 @@ namespace ShopTARgv24.Data.Migrations
 
                     b.Property<string>("ExistingFilePath")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid>("RealEstateId")
-                        .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid?>("SpaceshipId")
                         .HasColumnType("uniqueidentifier");

@@ -1,7 +1,11 @@
-﻿namespace ShopTARgv24.Models.Accounts
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace ShopTARgv24.Models.Accounts
 {
     public class ForgotPasswordViewModel
     {
-        public string Email { get; internal set; }
+        [Required]
+        [EmailAddress]
+        public string Email { get; set; } = string.Empty;
     }
 }

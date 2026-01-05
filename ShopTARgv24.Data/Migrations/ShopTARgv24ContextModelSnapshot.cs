@@ -31,9 +31,6 @@ namespace ShopTARgv24.Data.Migrations
                     b.Property<string>("ExistingFilePath")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("RealEstateId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<Guid?>("SpaceshipId")
                         .HasColumnType("uniqueidentifier");
 

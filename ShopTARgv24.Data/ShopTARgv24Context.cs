@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using ShopTARgv24.Core.Domain;
 
 
@@ -12,7 +13,7 @@ namespace ShopTARgv24.Data
         public DbSet<Spaceship> Spaceships { get; set; }
         public DbSet<RealEstate> RealEstates { get; set; }
         public DbSet<FileToApi> FileToApis { get; set; }
-
         public DbSet<FileToDatabase> FileToDatabase { get; set; }
+        public DbSet<IdentityRole> IdentityRoles { get; set; }
     }
 }

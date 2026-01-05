@@ -20,4 +20,3 @@ namespace ShopTARgv24.Models.Accounts
         public string ConfirmPassword { get; set; } = string.Empty;
     }
 }
-

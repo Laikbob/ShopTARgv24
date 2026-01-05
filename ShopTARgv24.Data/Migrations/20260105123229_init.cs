@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace ShopTARgv24.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class Init : Migration
+    public partial class init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -17,8 +17,7 @@ namespace ShopTARgv24.Data.Migrations
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     ExistingFilePath = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    SpaceshipId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    RealEstateId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    SpaceshipId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
                 },
                 constraints: table =>
                 {
