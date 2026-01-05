@@ -35,7 +35,7 @@ namespace ShopTARgv24.ApplicationServices.Services
 
             //vaja teha foreach, kus saab lisada mitu faili
             //vaja kasutada kontrolli, kus kui faili pole, siis ei lisa
-            foreach (var  file in dto.Attachment)
+            foreach (var file in dto.Attachment)
             {
                 if (file.Length > 0)
                 {

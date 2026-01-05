@@ -6,6 +6,5 @@ namespace ShopTARgv24.Core.ServiceInterface
     {
         void SendEmail(EmailDto dto);
         void SendEmailToken(EmailTokenDto dto, string token);
-        void SendEmailToken(EmailTokenDto emailDto);
     }
 }

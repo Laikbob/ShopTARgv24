@@ -22,8 +22,6 @@ namespace ShopTARgv24.Controllers
             return View();
         }
 
-        //teha meetod nimega SendEmail, mis võtab vastu EmailDto objekti
-        //kasutab EmailServices klassi, et saata email
         [HttpPost]
         public IActionResult SendEmail(EmailViewModel vm)
         {

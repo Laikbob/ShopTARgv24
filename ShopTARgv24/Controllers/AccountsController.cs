@@ -7,7 +7,6 @@ using ShopTARgv24.Core.ServiceInterface;
 using ShopTARgv24.Models;
 using ShopTARgv24.Models.Accounts;
 using System.Diagnostics;
-using System.Threading.Tasks;
 
 namespace ShopTARgv24.Controllers
 {
@@ -186,6 +185,7 @@ namespace ShopTARgv24.Controllers
 
 
         [HttpPost]
+        [AllowAnonymous]
         public async Task<IActionResult> Logout()
         {
             await _signInManager.SignOutAsync();
@@ -193,12 +193,14 @@ namespace ShopTARgv24.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public IActionResult ChangePassword()
         {
             return View();
         }
 
         [HttpPost]
+        [AllowAnonymous]
         public async Task<IActionResult> ChangePassword(ChangePasswordViewModel model)
         {
             if (ModelState.IsValid)
@@ -228,70 +230,72 @@ namespace ShopTARgv24.Controllers
 
             return View(model);
         }
+
         [HttpGet]
         [AllowAnonymous]
-        public IActionResult AccessDenied()
+        public IActionResult ForgotPassword()
         {
             return View();
         }
 
         [HttpPost]
         [AllowAnonymous]
-        public async Task<IActionResult> ForgotenPassword(ForgotPasswordViewModel model)
+        public async Task<IActionResult> ForgotPassword(ForgotPasswordViewModel model)
         {
             if (ModelState.IsValid)
             {
                 var user = await _userManager.FindByEmailAsync(model.Email);
+
                 if (user != null && await _userManager.IsEmailConfirmedAsync(user))
                 {
                     var token = await _userManager.GeneratePasswordResetTokenAsync(user);
                     var passwordResetLink = Url.Action("ResetPassword", "Accounts", new { email = model.Email, token = token }, Request.Scheme);
 
-                    var emailDto = new EmailTokenDto
+                    var emailDto = new EmailDto
                     {
                         To = model.Email,
-                        Subject = "Password Reset Request",
-                        Body = $"Please reset your password, please click the following link: <a href=\"{passwordResetLink}\">Reset Password</a>",
+                        Subject = "Reset your password",
+                        Body = $"Please reset your password by clicking <a href='{passwordResetLink}'>here</a>."
                     };
 
-                    _emailServices.SendEmailToken(emailDto);
+                    _emailServices.SendEmail(emailDto);
 
                     return View("ForgotPasswordConfirmation");
-
                 }
                 return View("ForgotPasswordConfirmation");
             }
             return View(model);
-
         }
-        [HttpGet]
+
+        [HttpPost]
         [AllowAnonymous]
-        public async Task<IActionResult> ResetPassword(string token, string email)
+        public async Task<IActionResult> ResetPassword(ResetPasswordViewModel model)
         {
             if (ModelState.IsValid)
             {
-                var user = await _userManager.FindByEmailAsync(model email);
-            }
-            if (user != null)
-            {
-                var result = await _userManager.ResetPasswordAsync(user, model.Token, model.Password);
+                var user = await _userManager.FindByEmailAsync(model.Email);
 
-                if (result.Succeeded)
+                if (user != null)
                 {
-                    if (await _userManager.IsLockedOutAsync(user))
+                    var result = await _userManager.ResetPasswordAsync(user, model.Token, model.Password);
+
+                    if (result.Succeeded)
                     {
-                        await _userManager.SetLockoutEndDateAsync(user, DateTimeOffset.UtcNow);
+                        if (await _userManager.IsLockedOutAsync(user))
+                        {
+                            await _userManager.SetLockoutEndDateAsync(user, DateTimeOffset.UtcNow);
+                        }
+                        return View("ResetPasswordConfirmation");
                     }
-                    return View("ResetPasswordConfirmation");
+                    foreach (var error in result.Errors)
+                    {
+                        ModelState.AddModelError("", error.Description);
+                    }
+                    return View(model);
                 }
-                foreach (var error in result Error)
-                {
-                    ModelState.AddModelError("", error.Description);
-                }
-                return View(model);
+                return View("ResetPasswordConfirmation");
             }
-            return View("ResetPasswordConfirmation");
+            return View(model);
         }
-        return View(model);
     }
 }
