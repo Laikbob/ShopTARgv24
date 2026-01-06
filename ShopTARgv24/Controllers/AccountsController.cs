@@ -310,4 +310,4 @@ namespace ShopTARgv24.Controllers
             return View(model);
         }
     }
-}
+}   
