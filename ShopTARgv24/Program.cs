@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
 using ShopTARgv24.ApplicationServices.Services;
 using ShopTARgv24.Core.Domain;
@@ -6,7 +8,7 @@ using ShopTARgv24.Core.ServiceInterface;
 using ShopTARgv24.Data;
 using ShopTARgv24.Hubs;
 
-namespace ShopTARgv24
+namespace shop
 {
     public class Program
     {
@@ -15,23 +17,15 @@ namespace ShopTARgv24
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
-            builder.Services.AddControllersWithViews();
+            builder.Services.AddControllersWithViews(options =>
+            {
+                var policy = new AuthorizationPolicyBuilder()
+                    .RequireAuthenticatedUser()
+                    .Build();
+
+                options.Filters.Add(new AuthorizeFilter(policy));
+            });
             builder.Services.AddSignalR();
-
-            builder.Services.AddScoped<ISpaceshipsServices, SpaceshipsServices>();
-            builder.Services.AddScoped<IFileServices, FileServices>();
-            builder.Services.AddScoped<IRealEstateServices, RealEstateServices>();
-            builder.Services.AddScoped<IWeatherForecastServices, WeatherForecastServices>();
-            builder.Services.AddScoped<IChuckNorrisServices, ChuckNorrisServices>();
-            builder.Services.AddScoped<ICocktailServices, CocktailServices>();
-            builder.Services.AddScoped<IEmailServices, EmailServices>();
-
-            builder.Services.AddHttpClient<IChuckNorrisServices, ChuckNorrisServices>();
-            builder.Services.AddHttpClient<ICocktailServices, CocktailServices>();
-
-            builder.Services.AddDbContext<ShopTARgv24Context>(options =>
-                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
-
             builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
             {
                 options.SignIn.RequireConfirmedAccount = true;
@@ -44,8 +38,27 @@ namespace ShopTARgv24
                 .AddEntityFrameworkStores<ShopTARgv24Context>()
                 .AddDefaultTokenProviders()
                 .AddTokenProvider<DataProtectorTokenProvider<ApplicationUser>>("CustomEmailConfirmation");
-            //.AddDefaultUI();
 
+            builder.Services.AddAuthentication()
+                .AddGoogle(googleOptions =>
+                {
+                    googleOptions.ClientId = builder.Configuration["Authentication:Google:ClientId"]
+                        ?? throw new InvalidOperationException("Google ClientId not found.");
+
+                    googleOptions.ClientSecret = builder.Configuration["Authentication:Google:ClientSecret"]
+                        ?? throw new InvalidOperationException("Google ClientSecret not found.");
+                });
+
+            builder.Services.AddDbContext<ShopTARgv24Context>(options =>
+                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+            builder.Services.AddScoped<IRealEstateServices, RealEstateServices>();
+            builder.Services.AddScoped<ISpaceshipsServices, SpaceshipsServices>();
+            builder.Services.AddScoped<IFileServices, FileServices>();
+            builder.Services.AddScoped<IWeatherForecastServices, WeatherForecastServices>();
+            builder.Services.AddHttpClient<ChuckNorrisServices>();
+            builder.Services.AddScoped<ICocktailServices, CocktailServices>();
+            builder.Services.AddScoped<IEmailServices, EmailServices>();
 
             var app = builder.Build();
 
@@ -55,23 +68,25 @@ namespace ShopTARgv24
             if (!app.Environment.IsDevelopment())
             {
                 app.UseExceptionHandler("/Home/Error");
+
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
 
             app.UseHttpsRedirection();
-            app.UseRouting();
-
-            app.UseAuthorization();
-            app.UseAuthentication();
 
             app.UseStaticFiles();
 
-            app.MapStaticAssets();
+            app.UseRouting();
+
+            app.UseAuthentication();
+            app.UseAuthorization();
+
+            app.UseStaticFiles();
+
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Home}/{action=Index}/{id?}")
-                .WithStaticAssets();
+                pattern: "{controller=Home}/{action=Index}/{id?}");
             app.MapHub<ChatHub>("/chatHub");
 
             app.Run();
