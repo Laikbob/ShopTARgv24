@@ -1,49 +1,42 @@
 ﻿@model ShopTARgv24.Models.Weather.AccuWeatherViewModel
 
-<div class="container">
-    <h2>Foreacast for the selected city</h2>
-    <h2>@Html.DisplayFor(model => model.CityName)</h2>
-    <hr />
-    <dl class="row text-dark">
-        <div>
-            <dt class="col-sm-2">
-                Temperature Min (Celsius):
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.TempMinValue) °C
-            </dd>
+@{
+    ViewData["Title"] = "Weather Result";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/weather.css" />
+}
+
+<h1 class="page-title">Weather Forecast</h1>
+
+<div class="weather-result">
+    <h2 class="city-name">@Model.CityName</h2>
+
+    <div class="weather-grid">
+        <div class="weather-item">
+            <span>🌡 Min Temp</span>
+            <strong>@Model.TempMinValue °C</strong>
         </div>
-        <div>
-            <dt class="col-sm-2">
-                Temperature Max (Celsius):
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.TempMaxValue) °C
-            </dd>
+
+        <div class="weather-item">
+            <span>🔥 Max Temp</span>
+            <strong>@Model.TempMaxValue °C</strong>
         </div>
-        <div>
-            <dt class="col-sm-2">
-                Severity:
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.Severity)
-            </dd>
+
+        <div class="weather-item">
+            <span>⚠ Severity</span>
+            <strong>@Model.Severity</strong>
         </div>
-        <div>
-            <dt class="col-sm-2">
-                Category:
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.Category)
-            </dd>
+
+        <div class="weather-item">
+            <span>📌 Category</span>
+            <strong>@Model.Category</strong>
         </div>
-        <div>
-            <dt class="col-sm-2">
-                Weather Text:
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.Text)
-            </dd>
+
+        <div class="weather-item full">
+            <span>☁ Weather</span>
+            <strong>@Model.Text</strong>
         </div>
-    </dl>
+    </div>
 </div>
