@@ -88,7 +88,7 @@
 
                             <li class="nav-item">
                                 <form method="post" asp-controller="Accounts" asp-action="Logout">
-                                    <button type="submit" class="nav-link btn btn-link py-0">
+                                    <button type="submit" class="btn btn-info">
                                         Logout @user.Name
                                     </button>
                                 </form>
@@ -97,10 +97,10 @@
                         else
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-controller="Accounts" asp-action="Register">Registration</a>
+                                <a class="btn btn-info" asp-controller="Accounts" asp-action="Register">Registration</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-controller="Accounts" asp-action="Login">Login</a>
+                                <a class="btn btn-info" asp-controller="Accounts" asp-action="Login">Login</a>
                             </li>
                         }
                     </ul>
@@ -109,15 +109,14 @@
             </div>
         </nav>
     </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
+    <main class="page-content container pb-3">
+        @RenderBody()
+    </main>
 
-    <footer class="border-top footer text-muted">
+    <footer class="footer">
         <div class="container">
-            &copy; 2025 - ShopTARgv24 - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            &copy; 2025 - ShopTARgv24 -
+            <a asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

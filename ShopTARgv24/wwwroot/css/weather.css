@@ -6,7 +6,7 @@
 /* ===== Titles ===== */
 .page-title {
     text-align: center;
-    color: white;
+    color: black;
     margin: 40px 0;
     font-size: 42px;
     font-weight: 700;
@@ -15,17 +15,35 @@
 /* ===== Cards ===== */
 .weather-card {
     max-width: 420px;
-    margin: auto;
-    background: white;
+    margin: 30px auto; /* добавил отступ сверху/снизу */
+    background: linear-gradient(145deg, #ffffff, #e0e0e0); /* мягкий градиент */
     padding: 30px;
     border-radius: 18px;
-    box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+    /* Hover эффект для карточки */
+    .weather-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 30px 50px rgba(0, 0, 0, 0.3);
+    }
+
+h2{
+    text-align :center;
+    color: black;
+
+}
+
+div {
+    text-align: center;
+    color: black;
 }
 
 .weather-result {
     max-width: 700px;
     margin: 40px auto;
-    background: white;
+    background: gray;
     padding: 30px;
     border-radius: 18px;
     box-shadow: 0 20px 40px rgba(0,0,0,0.2);

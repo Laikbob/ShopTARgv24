@@ -1,0 +1,9 @@
+<Solution>
+  <Project Path="reactcrud.client/reactcrud.client.esproj">
+    <Build />
+    <Deploy />
+  </Project>
+  <Project Path="ReactCRUD.Core/ReactCRUD.Core.csproj" />
+  <Project Path="ReactCRUD.Data/ReactCRUD.Data.csproj" />
+  <Project Path="ReactCRUD.Server/ReactCRUD.Server.csproj" />
+</Solution>
