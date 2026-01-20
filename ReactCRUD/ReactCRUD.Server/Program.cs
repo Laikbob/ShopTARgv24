@@ -1,4 +1,7 @@
+
 using Microsoft.EntityFrameworkCore;
+using ReactCRUD.ApplicationServices.Services;
+using ReactCRUD.Core.ServiceInterface;
 using ReactCRUD.Data;
 
 namespace ReactCRUD.Server
@@ -9,32 +12,35 @@ namespace ReactCRUD.Server
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            // Controllers
-            builder.Services.AddControllers();
+            // Add services to the container.
 
-            // OpenAPI
+            builder.Services.AddControllers();
+            // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
             builder.Services.AddOpenApi();
 
-            // DbContext
             builder.Services.AddDbContext<ReactCRUDContext>(options =>
-                options.UseSqlServer(
-                    builder.Configuration.GetConnectionString("DefaultConnection")
-                ));
+                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+            builder.Services.AddScoped<SchoolInterface, SchoolServices>();
+
 
             var app = builder.Build();
 
             app.UseDefaultFiles();
             app.MapStaticAssets();
 
+            // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
                 app.MapOpenApi();
             }
 
             app.UseHttpsRedirection();
+
             app.UseAuthorization();
 
+
             app.MapControllers();
+
             app.MapFallbackToFile("/index.html");
 
             app.Run();

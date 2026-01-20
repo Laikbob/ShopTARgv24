@@ -1,4 +1,5 @@
 <Solution>
+  <Project Path="ReactCRUD.ApplicationServices/ReactCRUD.ApplicationServices.csproj" Id="cc2d9d83-2519-408d-a34e-26044ef497f0" />
   <Project Path="reactcrud.client/reactcrud.client.esproj">
     <Build />
     <Deploy />
